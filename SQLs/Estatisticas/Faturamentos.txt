@@ -1,0 +1,43 @@
+Select 
+	FVE.NOME VENDEDOR, 
+		sum((case when CCO.CONTATO in (select FMC.CONTATO from FAT_MOVIMENTO_CAPA FMC, FAT_TIPO_TRANSACAO FTT 
+		where FMC.EMPRESA = CCO.EMPRESA 
+		and FMC.REVENDA = CCO.REVENDA 
+		and FMC.CONTATO = CCO.CONTATO 
+		and FMC.TIPO_TRANSACAO = FTT.TIPO_TRANSACAO 
+		and FTT.SUBTIPO_TRANSACAO = 'N'
+		and not FTT.SUBTIPO_TRANSACAO in ('T', 'S', 'D')) then 1 else 0 end)) as "Venda Loja", 
+	sum((case when CCO.CONTATO not in (select FMC.CONTATO from FAT_MOVIMENTO_CAPA FMC, FAT_TIPO_TRANSACAO FTT 
+		where FMC.EMPRESA = CCO.EMPRESA 
+		and FMC.REVENDA = CCO.REVENDA 
+		and FMC.CONTATO = CCO.CONTATO 
+		and FMC.TIPO_TRANSACAO = FTT.TIPO_TRANSACAO) then 1 else 0 end)) as "Venda Direta",
+	count(*) as "Total Vendas"
+    
+from 
+	FAT_VENDEDOR FVE, CAC_CONTATO CCO 
+left join 
+	CAC_PROVIDENCIA CP 
+    on (CCO.EMPRESA = CP.EMPRESA 
+	and CCO.REVENDA = CP.REVENDA 
+    and CCO.CONTATO = CP.CONTATO )    
+where 
+	CCO.REVENDA = 1 
+    and CCO.SITUACAO = 'F' 
+    and CCO.RESULTADO = 'R' 
+	and CCO.ORIGEM = 'V' 
+	and FVE.EMPRESA = CCO.EMPRESA 
+	and FVE.REVENDA = CCO.REVENDA 
+	and FVE.FUNCAO = 'V'
+    and FVE.USUARIO = CCO.USUARIO_ENCAMINHADO 
+    and (CCO.DTA_FECHAMENTO >= To_Date('01/12/2021','dd/mm/yyyy') 
+	and CCO.DTA_FECHAMENTO < To_Date('30/12/2021', 'dd/mm/yyyy')+1)
+	and CCO.DEPARTAMENTO IN (100,110) 
+	and FVE.USUARIO in (select UU.USUARIO from GER_USUARIO UU where not UU.USUARIO = 434 and UU.GERENTE in (257, 343) )
+                and CP.PROVIDENCIA = (select max(providencia) 
+		from CAC_PROVIDENCIA CP1 
+		where CP1.EMPRESA = CCO.EMPRESA 
+		AND CP1.REVENDA = CCO.REVENDA 
+		AND CP1.CONTATO = CCO.CONTATO)
+group by FVE.NOME 
+order by FVE.NOME

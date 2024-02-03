@@ -1,0 +1,23 @@
+select TO_CHAR(cc.dta_contato, 'DD-MM-YYYY') as DATA,
+sum((case when FVE.USUARIO = 468 then 1 else 0 end)) "Alline",
+sum((case when FVE.USUARIO = 232 then 1 else 0 end)) "Altamiro",
+sum((case when FVE.USUARIO = 501 then 1 else 0 end)) "Ana Karla",
+sum((case when FVE.USUARIO = 343 then 1 else 0 end)) "Denis",
+sum((case when FVE.USUARIO = 375 then 1 else 0 end)) "Joao",
+sum((case when FVE.USUARIO = 116 then 1 else 0 end)) "Lara",
+sum((case when FVE.USUARIO = 257 then 1 else 0 end)) "Mario",
+sum((case when FVE.USUARIO = 534 then 1 else 0 end)) "Rodrigo",
+sum((case when FVE.USUARIO = 505 then 1 else 0 end)) "Weslaine",
+count(*) Total
+from FAT_CLIENTE FC, 
+CAC_CONTATO CC 
+INNER JOIN FAT_VENDEDOR FVE
+ON CC.USUARIO_ABRIU = FVE.USUARIO
+AND CC.REVENDA = FVE.REVENDA
+where CC.EMPRESA = 1 and FC.CLIENTE = CC.CLIENTE 
+and cc.dta_contato >= To_Date(:inicio,'dd/mm/yyyy') 
+and cc.dta_contato < To_Date(:fim, 'dd/mm/yyyy')+1
+and CC.DEPARTAMENTO in (:departamento, :departamento2)
+and FVE.USUARIO in (select UU.USUARIO from GER_USUARIO UU where not UU.USUARIO = 434 and UU.GERENTE in (257, 343, 268) )
+group by TO_CHAR(cc.dta_contato, 'DD-MM-YYYY')
+ORDER BY TO_CHAR(cc.dta_contato, 'DD-MM-YYYY')

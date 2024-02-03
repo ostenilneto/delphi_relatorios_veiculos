@@ -1,0 +1,18 @@
+program relatorio;
+
+uses
+  Forms,
+  rel_1 in 'rel_1.pas' {Form1},
+  Uconexao in 'Uconexao.pas',
+  Princ in 'Princ.pas' {Form2},
+  rel_2 in 'rel_2.pas' {Form3};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TForm2, Form2);
+  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TForm3, Form3);
+  Application.Run;
+end.

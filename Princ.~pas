@@ -1,0 +1,50 @@
+unit Princ;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, jpeg, ExtCtrls, StdCtrls, ComCtrls;
+
+type
+  TForm2 = class(TForm)
+    Button1: TButton;
+    Button2: TButton;
+    Label1: TLabel;
+    Image1: TImage;
+    StatusBar1: TStatusBar;
+    Timer1: TTimer;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form2: TForm2;
+
+implementation
+
+uses rel_1, rel_2;
+
+{$R *.dfm}
+
+procedure TForm2.Button1Click(Sender: TObject);
+begin
+  Form1.ShowModal;
+end;
+
+procedure TForm2.Button2Click(Sender: TObject);
+begin
+  Form3.ShowModal;
+end;
+
+procedure TForm2.Timer1Timer(Sender: TObject);
+Begin
+ Statusbar1.Panels [0].Text := ' '+datetostr(date);// para data
+ statusbar1.Panels [1].Text := ' '+timetostr(now);//para hora
+end;
+End.

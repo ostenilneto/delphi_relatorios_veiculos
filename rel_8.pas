@@ -1,0 +1,266 @@
+unit rel_8;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.DBCtrls,
+  Vcl.ComCtrls, Vcl.ExtCtrls, Data.DB, Vcl.Grids, ComObj , Vcl.DBGrids, DateUtils, Data.Win.ADODB;
+
+type
+  TForm9 = class(TForm)
+    Panel1: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
+    ComboBox1: TComboBox;
+    Label2: TLabel;
+    DateTimePicker3: TDateTimePicker;
+    Label3: TLabel;
+    Label4: TLabel;
+    DateTimePicker4: TDateTimePicker;
+    DBLookupComboBox1: TDBLookupComboBox;
+    Label1: TLabel;
+    DBGrid1: TDBGrid;
+    ADOConnection1: TADOConnection;
+    ADOQuery1: TADOQuery;
+    DataSource1: TDataSource;
+    ADOQuery1FAMILIA: TIntegerField;
+    ADOQuery1DES_FAMILIA: TStringField;
+    DataSource2: TDataSource;
+    ADOQuery2: TADOQuery;
+    ADOQuery3: TADOQuery;
+    ADOQuery4: TADOQuery;
+    ComboBox2: TComboBox;
+    procedure FormShow(Sender: TObject);
+    procedure ComboBox1Change(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form9: TForm9;
+
+implementation
+uses Princ;
+{$R *.dfm}
+
+procedure TForm9.BitBtn1Click(Sender: TObject);
+begin
+    Form9.DBGrid1.DataSource.DataSet.Close;
+end;
+
+procedure TForm9.BitBtn2Click(Sender: TObject);
+begin
+  Form2.Panel12.Width := 150;
+  Form2.Caption := 'PROGRAMA DE APOIO';
+  Form9.Close;
+  DBGrid1.DataSource.DataSet.Close;
+end;
+
+procedure TForm9.BitBtn3Click(Sender: TObject);
+Var
+linha, coluna: integer;
+planilha: variant;
+valorCampo : string;
+begin
+   if ComboBox1.ItemIndex = 0
+      then begin
+      planilha:= CreateOleObject('Excel.Application');
+      planilha.Workbooks.add(1);
+      planilha.Cells.Select;
+      planilha.Selection.NumberFormat := '@';
+      planilha.caption:= 'Exportação de dados para o excel';
+      planilha.visible:= true;
+      AdoQuery2.First;
+      for linha:= 0 to AdoQuery2.RecordCount-1 do
+        begin
+          for coluna:= 1 to AdoQuery2.FieldCount do
+            begin
+              valorCampo:= AdoQuery2.Fields[coluna-1].AsString;
+              planilha.cells[linha+2,coluna]:= valorCampo;
+            end;
+
+          AdoQuery2.Next;
+
+        end;
+      for coluna:=1 to AdoQuery2.FieldCount do
+        begin
+          valorCampo:= AdoQuery2.Fields[coluna-1].DisplayLabel;
+          planilha.cells[1,coluna]:= valorCampo;
+      end;
+      planilha.columns.AutoFit;
+      end
+   else if ComboBox1.ItemIndex = 1
+      then begin
+      planilha:= CreateOleObject('Excel.Application');
+      planilha.Workbooks.add(1);
+      planilha.Cells.Select;
+      planilha.Selection.NumberFormat := '@';
+      planilha.caption:= 'Exportação de dados para o excel';
+      planilha.visible:= true;
+      AdoQuery3.First;
+      for linha:= 0 to AdoQuery3.RecordCount-1 do
+        begin
+          for coluna:= 1 to AdoQuery3.FieldCount do
+            begin
+              valorCampo:= AdoQuery3.Fields[coluna-1].AsString;
+              planilha.cells[linha+2,coluna]:= valorCampo;
+            end;
+
+          AdoQuery3.Next;
+
+        end;
+      for coluna:=1 to AdoQuery3.FieldCount do
+        begin
+          valorCampo:= AdoQuery3.Fields[coluna-1].DisplayLabel;
+          planilha.cells[1,coluna]:= valorCampo;
+      end;
+      planilha.columns.AutoFit;
+      end
+   else
+      begin
+      planilha:= CreateOleObject('Excel.Application');
+      planilha.Workbooks.add(1);
+      planilha.Cells.Select;
+      planilha.Selection.NumberFormat := '@';
+      planilha.caption:= 'Exportação de dados para o excel';
+      planilha.visible:= true;
+      AdoQuery4.First;
+      for linha:= 0 to AdoQuery4.RecordCount-1 do
+        begin
+          for coluna:= 1 to AdoQuery4.FieldCount do
+            begin
+              valorCampo:= AdoQuery4.Fields[coluna-1].AsString;
+              planilha.cells[linha+2,coluna]:= valorCampo;
+            end;
+
+          AdoQuery4.Next;
+
+        end;
+      for coluna:=1 to AdoQuery4.FieldCount do
+        begin
+          valorCampo:= AdoQuery4.Fields[coluna-1].DisplayLabel;
+          planilha.cells[1,coluna]:= valorCampo;
+      end;
+      planilha.columns.AutoFit;
+   end;
+
+end;
+
+
+procedure TForm9.BitBtn4Click(Sender: TObject);
+//*var
+//*DtIni, DtFim, MsIni, MsFim : string;
+begin
+  if ComboBox1.ItemIndex = 0
+        then begin
+        Form9.ADOQuery2.Close;
+        Form9.ADOQuery3.Close;
+        Form9.ADOQuery4.Close;
+        Form9.DataSource2.DataSet := ADOQuery2;
+        //*DtIni :=  IntToStr( DayOf(DateTimePicker3.Date));
+        //*DtFim :=  IntToStr( DayOf(DateTimePicker4.Date));
+        //*MsIni :=  IntToStr( MonthOf(DateTimePicker3.Date));
+        //*MsFim :=  IntToStr( MonthOf(DateTimePicker4.Date));
+        Form9.ADOQuery2.Parameters.ParamByName('DtIni').Value := DayOf(DateTimePicker3.Date);
+        Form9.ADOQuery2.Parameters.ParamByName('DtFim').Value := DayOf(DateTimePicker4.Date);
+        Form9.ADOQuery2.Parameters.ParamByName('MsIni').Value := MonthOf(DateTimePicker3.Date);
+        Form9.ADOQuery2.Parameters.ParamByName('MsFim').Value := MonthOf(DateTimePicker4.Date);
+        Form9.ADOQuery2.Open;
+    end
+    else if ComboBox1.ItemIndex = 1
+    then begin
+        Form9.ADOQuery2.Close;
+        Form9.ADOQuery3.Close;
+        Form9.ADOQuery4.Close;
+        Form9.DataSource2.DataSet := ADOQuery3;
+        Form9.ADOQuery3.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
+        Form9.ADOQuery3.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
+        Form9.ADOQuery3.Parameters.ParamByName('familia').Value := DBLookupComboBox1.KeyValue;
+        Form9.ADOQuery3.Open;
+    end
+    else
+    begin
+        Form9.ADOQuery2.Close;
+        Form9.ADOQuery3.Close;
+        Form9.ADOQuery4.Close;
+        Form9.DataSource2.DataSet := ADOQuery4;
+        Form9.ADOQuery4.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
+        Form9.ADOQuery4.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
+        if ComboBox2.ItemIndex = 0 then
+        begin
+          ADOQuery4.Parameters.ParamByName('dep').Value := 'N'
+        end
+        else
+        begin
+          ADOQuery4.Parameters.ParamByName('dep').Value := 'U'
+        end;
+
+        Form9.ADOQuery4.Open;
+    end;
+end;
+
+procedure TForm9.ComboBox1Change(Sender: TObject);
+begin
+  if ComboBox1.ItemIndex = 0
+        then begin
+        Form9.ADOQuery2.Close;
+        Form9.ADOQuery3.Close;
+        ComboBox2.Enabled := False;
+        ComboBox2.Visible := False;
+        Form9.DataSource2.DataSet := ADOQuery2;
+        DBLookupComboBox1.Enabled := False;
+        DBLookupComboBox1.Visible := False;
+        Label1.Visible := False;
+
+    end
+    else if ComboBox1.ItemIndex = 1
+    then begin
+        ComboBox2.Enabled := False;
+        ComboBox2.Visible := False;
+        Label1.Caption := 'Veículo:';
+        DBLookupComboBox1.Enabled := True;
+        DBLookupComboBox1.Visible := True;
+        Label1.Visible := True;
+        Form9.ADOQuery2.Close;
+        Form9.ADOQuery3.Close;
+        Form9.DataSource2.DataSet := ADOQuery3;
+        Form9.ADOQuery1.Close;
+        Form9.ADOQuery1.Open;
+        DBLookupComboBox1.KeyValue:= 4;
+    end
+    else
+    begin
+        Form9.ADOQuery2.Close;
+        Form9.ADOQuery3.Close;
+        Form9.DataSource2.DataSet := ADOQuery4;
+        Label1.Caption := 'Departamento:';
+        DBLookupComboBox1.Enabled := False;
+        DBLookupComboBox1.Visible := False;
+        ComboBox2.Enabled := True;
+        ComboBox2.Visible := True;
+        Label1.Visible := True;
+    end;
+end;
+
+procedure TForm9.FormShow(Sender: TObject);
+begin
+  datetimepicker3.date:= StartOfTheMonth(now);
+  datetimepicker4.date:= EndOfTheMonth(now);
+  ComboBox1.ItemIndex := 0;
+  DBLookupComboBox1.Enabled := False;
+  DBLookupComboBox1.Visible := False;
+  Label1.Visible := False;
+  ComboBox2.Enabled := False;
+  ComboBox2.Visible := False;
+end;
+
+end.

@@ -1,0 +1,293 @@
+unit rel_6;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.ExtCtrls,
+  Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, DateUtils, Vcl.StdCtrls, Vcl.Buttons, Vcl.DBCtrls;
+
+type
+  TForm7 = class(TForm)
+    StatusBar1: TStatusBar;
+    Panel1: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn2: TBitBtn;
+    TabControl2: TTabControl;
+    Timer1: TTimer;
+    DataSource1: TDataSource;
+    ADOConnection1: TADOConnection;
+    ADOQuery1: TADOQuery;
+    ADOQuery2: TADOQuery;
+    DataSource2: TDataSource;
+    DataSource3: TDataSource;
+    ADOQuery3: TADOQuery;
+    Label1: TLabel;
+    DBLookupComboBox1: TDBLookupComboBox;
+    ComboBox1: TComboBox;
+    Label2: TLabel;
+    DateTimePicker3: TDateTimePicker;
+    DateTimePicker4: TDateTimePicker;
+    Label4: TLabel;
+    Label3: TLabel;
+    ADOQuery3USUARIO: TIntegerField;
+    ADOQuery3NOME: TStringField;
+    DBGrid1: TDBGrid;
+    DBGrid2: TDBGrid;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormResize(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure DimensionarGrid(dbg: TDBGrid);
+    procedure ComboBox1Change(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form7: TForm7;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm7.BitBtn1Click(Sender: TObject);
+begin
+  Form7.DBGrid1.DataSource.DataSet.Close;
+  Form7.DBGrid2.DataSource.DataSet.Close;
+end;
+
+procedure TForm7.BitBtn2Click(Sender: TObject);
+begin
+  Form7.Close;
+  Form7.DBGrid1.DataSource.DataSet.Close;
+  Form7.DBGrid2.DataSource.DataSet.Close;
+end;
+
+procedure TForm7.BitBtn4Click(Sender: TObject);
+begin
+  Form7.ADOQuery1.Close;
+  Form7.ADOQuery1.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
+  Form7.ADOQuery1.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
+  Form7.ADOQuery1.Open;
+  DimensionarGrid( DBGrid2 );
+
+  //ADOQuery2
+  Form7.ADOQuery2.Close;
+  Form7.ADOQuery2.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
+  Form7.ADOQuery2.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
+  Form7.ADOQuery2.Parameters.ParamByName('vendedor').Value := Form7.DBLookupComboBox1.KeyValue;
+  Form7.ADOQuery2.Open;
+  DimensionarGrid( DBGrid1 );
+end;
+
+procedure TForm7.ComboBox1Change(Sender: TObject);
+begin
+  if ComboBox1.ItemIndex = 0
+        then begin
+
+        Form7.ADOQuery2.Close;
+        Form7.ADOQuery3.Close;
+
+        with Form7.ADOQuery1 do
+        begin
+          Close;
+          SQL.Clear;
+          SQL.Add('select cc.dta_contato DATA, ');
+          SQL.Add('sum((case when FV.USUARIO = 468 then 1 else 0 end)) "ALLINE", ');
+          SQL.Add('sum((case when FV.USUARIO = 232 then 1 else 0 end)) "ALTAMIRO", ');
+          SQL.Add('sum((case when FV.USUARIO = 501 then 1 else 0 end)) "ANA KARLA", ');
+          SQL.Add('sum((case when FV.USUARIO = 218 then 1 else 0 end)) "DAYANE", ');
+          SQL.Add('sum((case when FV.USUARIO = 243 then 1 else 0 end)) "DENIS", ');
+          SQL.Add('sum((case when FV.USUARIO = 375 then 1 else 0 end)) "JOÃO", ');
+          SQL.Add('sum((case when FV.USUARIO = 116 then 1 else 0 end)) "LARA", ');
+          SQL.Add('sum((case when FV.USUARIO = 315 then 1 else 0 end)) "MARCO", ');
+          SQL.Add('sum((case when FV.USUARIO = 257 then 1 else 0 end)) "MARIO", ');
+          SQL.Add('sum((case when FV.USUARIO = 534 then 1 else 0 end)) "RODRIGO", ');
+          SQL.Add('sum((case when FV.USUARIO = 505 then 1 else 0 end)) "WESLAINE", ');
+          SQL.Add('count(*) total ');
+          SQL.Add('from FAT_CLIENTE FC,CAC_CONTATO CC ');
+          SQL.Add('INNER JOIN FAT_VENDEDOR FVE ');
+          SQL.Add('ON CC.USUARIO_ABRIU = FVE.USUARIO ');
+          SQL.Add('AND CC.REVENDA = FVE.REVENDA ');
+          SQL.Add('where CC.EMPRESA = 1 and FC.CLIENTE = CC.CLIENTE ');
+          SQL.Add('and cc.dta_contato >= TO_DATE(''' + FormatDateTime('DD/MM/YYYY', DateTimePicker3.Date) + '''  ');
+          SQL.Add('and cc.dta_contato < TO_DATE(''' + FormatDateTime('DD/MM/YYYY', DateTimePicker4.Date) + ''' ');
+          SQL.Add('and CC.DEPARTAMENTO in (100, 110) ');
+          SQL.Add('and FVE.USUARIO in (select UU.USUARIO from GER_USUARIO UU ');
+          SQL.Add('where not UU.USUARIO = 434 and UU.GERENTE in (257, 343, 268) ) ');
+          SQL.Add('group by cc.dta_contato ');
+          SQL.Add('ORDER BY cc.dta_contato ');
+          Open;
+        end;
+        Form7.ADOQuery1.Open;
+        Form7.ADOQuery3.Parameters.ParamByName('cargo').Value := 6;
+        Form7.DBLookupComboBox1.KeyValue:= 468;
+        Form7.ADOQuery3.Open;
+    end
+    else begin
+        Form7.ADOQuery2.Close;
+        Form7.ADOQuery3.Close;
+
+        with Form7.ADOQuery1 do
+        begin
+          Close;
+          SQL.Clear;
+          SQL.Add('select GMO.DES_MOTIVO "MOTIVO", ');
+          SQL.Add('sum((case when FV.USUARIO = 521 then 1 else 0 end)) "DARLON", ');
+          SQL.Add('sum((case when FV.USUARIO = 118 then 1 else 0 end)) "GUILHERME", ');
+          SQL.Add('sum((case when FV.USUARIO = 496 then 1 else 0 end)) "MARCUS", ');
+          SQL.Add('sum((case when FV.USUARIO = 439 then 1 else 0 end)) "MILENA", ');
+          SQL.Add('sum((case when FV.USUARIO = 329 then 1 else 0 end)) "RICARDO", ');
+          SQL.Add('sum((case when FV.USUARIO = 257 then 1 else 0 end)) "MARIO", ');
+          SQL.Add('sum((case when FV.USUARIO = 268 then 1 else 0 end)) "PLINIO", ');
+          SQL.Add('count(*) total ');
+          SQL.Add('from GER_USUARIO GU1, GER_USUARIO GU2, CAC_CONTATO CAC ');
+          SQL.Add('inner join CAC_FORMA_CONTATO CFC ');
+          SQL.Add('on (CAC.EMPRESA = CFC.EMPRESA and CAC.FORMA_CONTATO = CFC.FORMA_CONTATO) ');
+          SQL.Add('inner join FAT_CLIENTE FC on (CAC.CLIENTE = FC.CLIENTE) ');
+          SQL.Add('inner join FAT_VENDEDOR FV on (CAC.EMPRESA = FV.EMPRESA ');
+          SQL.Add('and CAC.REVENDA = FV.REVENDA and CAC.USUARIO_ENCAMINHADO = FV.USUARIO) ');
+          SQL.Add('left join CAC_INTERESSE CI ');
+          SQL.Add('on (CAC.EMPRESA = CI.EMPRESA and CAC.REVENDA = CI.REVENDA ');
+          SQL.Add('and CAC.CONTATO = CI.CONTATO) ');
+          SQL.Add('left join CAC_PROVIDENCIA CP on (CAC.EMPRESA = CP.EMPRESA ');
+          SQL.Add('and CAC.REVENDA = CP.REVENDA and CAC.CONTATO = CP.CONTATO ');
+          SQL.Add('and CP.TIPO_PROVIDENCIA = :f) ');
+          SQL.Add('INNER JOIN GER_MOTIVO GMO ');
+          SQL.Add('ON (CP.EMPRESA = GMO.EMPRESA) ');
+          SQL.Add('AND (CP.REVENDA = GMO.REVENDA) ');
+          SQL.Add('AND (CP.MOTIVO = GMO.MOTIVO) ');
+          SQL.Add('where CFC.TIPO_FORMA_CONTATO in (1,2,3,4) ');
+          SQL.Add('and CAC.ORIGEM = :v ');
+          SQL.Add('and CAC.RESULTADO = :p ');
+          SQL.Add('and CAC.SITUACAO = :f2 ');
+          SQL.Add('and GU1.USUARIO = CAC.USUARIO_ABRIU ');
+          SQL.Add('and GU2.USUARIO = CAC.USUARIO_ENCAMINHADO ');
+          SQL.Add('AND CAC.DEPARTAMENTO in (200, 210) ');
+          SQL.Add('and CP.DTA_PROVIDENCIA between To_date(:inicio,:inicio2) ');
+          SQL.Add('and To_Date(:fim,:fim2) ');
+          SQL.Add('and CP.PROVIDENCIA = (select max(providencia) ');
+          SQL.Add('from CAC_PROVIDENCIA CP1 ');
+          SQL.Add('where CP1.EMPRESA = CAC.EMPRESA ');
+          SQL.Add('AND CP1.REVENDA = CAC.REVENDA ');
+          SQL.Add('AND CP1.CONTATO = CAC.CONTATO) ');
+          SQL.Add('GROUP by GMO.DES_MOTIVO ');
+          SQL.Add('order by GMO.DES_MOTIVO ');
+          Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
+          Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
+          Parameters.ParamByName('p').Value := 'P';
+          Parameters.ParamByName('f').Value := 'F';
+          Parameters.ParamByName('v').Value := 'V';
+          Parameters.ParamByName('f2').Value := 'F';
+          Parameters.ParamByName('inicio2').Value := 'dd/mm/yyyy';
+          Parameters.ParamByName('fim2').Value := 'dd/mm/yyyy';
+          Open;
+        end;
+        Form7.ADOQuery3.Parameters.ParamByName('cargo').Value := 7;
+        Form7.DBLookupComboBox1.KeyValue:= 521;
+        Form7.ADOQuery3.Open;
+    end;
+    DimensionarGrid( DBGrid2 );
+
+end;
+
+
+
+procedure TForm7.FormCreate(Sender: TObject);
+begin
+  datetimepicker3.date:= StartOfTheMonth(now);;
+  datetimepicker4.date:= now;
+end;
+
+procedure TForm7.FormResize(Sender: TObject);
+begin
+  //DimensionarGrid( DBGrid1 );
+  //DimensionarGrid( DBGrid2 );
+end;
+
+procedure TForm7.FormShow(Sender: TObject);
+begin
+  Form7.ADOQuery3.Close;
+  Form7.ADOQuery3.Parameters.ParamByName('cargo').Value := 6;
+  Form7.ADOQuery3.Open;
+  Form7.DBLookupComboBox1.KeyValue:= 468;
+  Form7.ADOQuery1.Close;
+  Form7.ADOQuery1.Parameters.ParamByName('inicio').Value := DatetoStr(Form7.DateTimePicker3.Date);
+  Form7.ADOQuery1.Parameters.ParamByName('fim').Value := DatetoStr(Form7.DateTimePicker4.Date);
+  //ADOQuery1.Parameters.ParamByName('cargo').Value := 6;
+  Form7.ComboBox1.ItemIndex := 0;
+  Form7.ADOQuery1.Open;
+  DimensionarGrid( DBGrid2 );
+end;
+
+procedure TForm7.Timer1Timer(Sender: TObject);
+begin
+  Statusbar1.Panels [0].Text := ' '+datetostr(date);// para data
+  statusbar1.Panels [1].Text := ' '+timetostr(now);//para hora
+end;
+
+procedure TForm7.DimensionarGrid(dbg: TDBGrid);
+type
+  TArray = Array of Integer;
+  procedure AjustarColumns(Swidth, TSize: Integer; Asize: TArray);
+  var
+    idx: Integer;
+  begin
+    if TSize = 0 then
+    begin
+      TSize := dbg.Columns.count;
+      for idx := 0 to dbg.Columns.count - 1 do
+        dbg.Columns[idx].Width := (dbg.Width - dbg.Canvas.TextWidth('AAAAAA')
+          ) div TSize
+    end
+    else
+      for idx := 0 to dbg.Columns.count - 1 do
+        dbg.Columns[idx].Width := dbg.Columns[idx].Width +
+          (Swidth * Asize[idx] div TSize);
+  end;
+
+var
+  idx, Twidth, TSize, Swidth: Integer;
+  AWidth: TArray;
+  Asize: TArray;
+  NomeColuna: String;
+begin
+  SetLength(AWidth, dbg.Columns.count);
+  SetLength(Asize, dbg.Columns.count);
+  Twidth := 0;
+  TSize := 0;
+  for idx := 0 to dbg.Columns.count - 1 do
+  begin
+    NomeColuna := dbg.Columns[idx].Title.Caption;
+    dbg.Columns[idx].Width := dbg.Canvas.TextWidth
+      (dbg.Columns[idx].Title.Caption + 'A');
+    AWidth[idx] := dbg.Columns[idx].Width;
+    Twidth := Twidth + AWidth[idx];
+
+    if Assigned(dbg.Columns[idx].Field) then
+      Asize[idx] := dbg.Columns[idx].Field.Size
+    else
+      Asize[idx] := 1;
+
+    TSize := TSize + Asize[idx];
+  end;
+  if TDBGridOption.dgColLines in dbg.Options then
+    Twidth := Twidth + dbg.Columns.count;
+
+  // adiciona a largura da coluna indicada do cursor
+  if TDBGridOption.dgIndicator in dbg.Options then
+    Twidth := Twidth + IndicatorWidth;
+
+  Swidth := dbg.ClientWidth - Twidth;
+  AjustarColumns(Swidth, TSize, Asize);
+end;
+
+end.

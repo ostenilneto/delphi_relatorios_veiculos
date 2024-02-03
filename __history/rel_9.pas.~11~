@@ -1,0 +1,54 @@
+unit rel_9;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Xml.xmldom, Xml.XMLIntf, Vcl.ExtCtrls,
+  Xml.XMLDoc, Datasnap.DBClient, Data.Win.ADODB;
+
+type
+  TForm10 = class(TForm)
+    DBGrid1: TDBGrid;
+    Label2: TLabel;
+    DateTimePicker1: TDateTimePicker;
+    Label1: TLabel;
+    DateTimePicker2: TDateTimePicker;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
+    BitBtn4: TBitBtn;
+    ADOConnection1: TADOConnection;
+    ADOQuery1: TADOQuery;
+    DataSource1: TDataSource;
+    procedure BitBtn4Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form10: TForm10;
+
+implementation
+uses Princ;
+{$R *.dfm}
+
+procedure TForm10.BitBtn4Click(Sender: TObject);
+begin
+  Form2.Panel12.Width := 150;
+  Form2.Caption := 'PROGRAMA DE APOIO';
+  Form10.Close;
+  DBGrid1.DataSource.DataSet.Close;
+end;
+
+procedure TForm10.FormShow(Sender: TObject);
+begin
+  datetimepicker1.date:= now;
+  datetimepicker2.date:= now;
+end;
+
+end.
