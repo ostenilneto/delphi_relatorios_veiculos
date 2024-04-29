@@ -66,6 +66,11 @@ type
     DataSource1: TDataSource;
     DataSource4: TDataSource;
     ADOQuery4: TADOQuery;
+    ADOQuery11: TADOQuery;
+    ADOQuery12: TADOQuery;
+    ADOQuery13: TADOQuery;
+    ADOQuery14: TADOQuery;
+    Label11: TLabel;
     procedure FormShow(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
@@ -73,6 +78,12 @@ type
     procedure DimensionarGrid(dbg: TDBGrid);
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
+    procedure DBGrid4DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DBGrid6DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
 
 
     
@@ -90,8 +101,18 @@ implementation
 uses Princ;
 {$R *.dfm}
 
-
-
+{          **  Tabela  **
+Query1 - Estatíticas Total Ativos
+Query2 | Query13 - Faturamento
+Query3 - Filtro departamento
+Query4 - Estatíticas Total Passivos
+Query5 | Query11 - Atendimentos
+Query6 | Query14 - Estatísticas Loja
+Query7 | Query12 - Venda Perdida
+Query8 - Estatíticas Total Fluxo Total(Atendimentos)
+Query9 - Estatíticas Total Faturamento
+Query10 - Estatíticas Total Venda Perdida
+                                     }
 
 
 procedure TForm8.BitBtn1Click(Sender: TObject);
@@ -233,8 +254,8 @@ begin
   Form8.ADOQuery1.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
   if DBLookupCombobox1.KeyValue = 100 then
   begin
-    Form8.ADOQuery1.Parameters.ParamByName('departamento').Value := (100);
-    Form8.ADOQuery1.Parameters.ParamByName('departamento2').Value := (110);
+      Form8.ADOQuery1.Parameters.ParamByName('departamento').Value := (100);
+      Form8.ADOQuery1.Parameters.ParamByName('departamento2').Value := (110);
       Form8.ADOQuery1.Open;
       DimensionarGrid( DBGrid2 );
   end
@@ -246,21 +267,22 @@ begin
       DimensionarGrid( DBGrid2 );
   end;
 
+    Form8.ADOQuery13.Close;
   Form8.ADOQuery2.Close;
-  Form8.ADOQuery2.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
-  Form8.ADOQuery2.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
   if DBLookupCombobox1.KeyValue = 100 then
   begin
-    Form8.ADOQuery2.Parameters.ParamByName('departamento').Value := (100);
-    Form8.ADOQuery2.Parameters.ParamByName('departamento2').Value := (110);
+      Form8.DataSource2.DataSet := ADOQuery2;
+      Form8.ADOQuery2.Parameters.ParamByName('inicio').Value := DatetoStr			(DateTimePicker3.DateTime);
+      Form8.ADOQuery2.Parameters.ParamByName('fim').Value := DatetoStr			(DateTimePicker4.DateTime);
       Form8.ADOQuery2.Open;
       DimensionarGrid( DBGrid2 );
   end
   else
   begin
-      Form8.ADOQuery2.Parameters.ParamByName('departamento').Value := (200);
-      Form8.ADOQuery2.Parameters.ParamByName('departamento2').Value := (210);
-      Form8.ADOQuery2.Open;
+      Form8.DataSource2.DataSet := ADOQuery13;
+      Form8.ADOQuery13.Parameters.ParamByName('inicio').Value := DatetoStr			(DateTimePicker3.DateTime);
+      Form8.ADOQuery13.Parameters.ParamByName('fim').Value := DatetoStr			(DateTimePicker4.DateTime);
+      Form8.ADOQuery13.Open;
       DimensionarGrid( DBGrid2 );
   end;
 
@@ -282,99 +304,45 @@ begin
       DimensionarGrid( DBGrid2 );
   end;
 
+  Form8.ADOQuery11.Close;
   Form8.ADOQuery5.Close;
-  Form8.ADOQuery5.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.DateTime);
-  Form8.ADOQuery5.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.DateTime);
   if DBLookupCombobox1.KeyValue = 100 then
   begin
-    Form8.ADOQuery5.Parameters.ParamByName('departamento').Value := (100);
-    Form8.ADOQuery5.Parameters.ParamByName('departamento2').Value := (110);
+      Form8.DataSource5.DataSet := ADOQuery5;
+      Form8.ADOQuery5.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.DateTime);
+      Form8.ADOQuery5.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.DateTime);
       Form8.ADOQuery5.Open;
       DimensionarGrid( DBGrid4 );
   end
   else
   begin
-      Form8.ADOQuery5.Parameters.ParamByName('departamento').Value := (200);
-      Form8.ADOQuery5.Parameters.ParamByName('departamento2').Value := (210);
-      Form8.ADOQuery5.Open;
+      Form8.DataSource5.DataSet := ADOQuery11;
+      Form8.ADOQuery11.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.DateTime);
+      Form8.ADOQuery11.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.DateTime);
+      Form8.ADOQuery11.Open;
       DimensionarGrid( DBGrid4 );
   end;
 
-  Form8.ADOQuery6.Close;
-  Form8.ADOQuery6.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('inicio2').Value := DatetoStr(DateTimePicker3.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('fim2').Value := DatetoStr(DateTimePicker4.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('inicio3').Value := DatetoStr(DateTimePicker3.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('fim3').Value := DatetoStr(DateTimePicker4.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('inicio4').Value := DatetoStr(DateTimePicker3.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('fim4').Value := DatetoStr(DateTimePicker4.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('inicio5').Value := DatetoStr(DateTimePicker3.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('fim5').Value := DatetoStr(DateTimePicker4.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('inicio6').Value := DatetoStr(DateTimePicker3.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('fim6').Value := DatetoStr(DateTimePicker4.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('inicio7').Value := DatetoStr(DateTimePicker3.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('fim7').Value := DatetoStr(DateTimePicker4.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('inicio8').Value := DatetoStr(DateTimePicker3.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('fim8').Value := DatetoStr(DateTimePicker4.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('inicio9').Value := DatetoStr(DateTimePicker3.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('fim9').Value := DatetoStr(DateTimePicker4.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('inicio10').Value := DatetoStr(DateTimePicker3.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('fim10').Value := DatetoStr(DateTimePicker4.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('inicio11').Value := DatetoStr(DateTimePicker3.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('fim11').Value := DatetoStr(DateTimePicker4.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('inicio12').Value := DatetoStr(DateTimePicker3.Date);
-  Form8.ADOQuery6.Parameters.ParamByName('fim12').Value := DatetoStr(DateTimePicker4.Date);
-
-  if DBLookupCombobox1.KeyValue = 100 then
-  begin
-    Form8.ADOQuery6.Parameters.ParamByName('departamento1').Value := (100);
-    Form8.ADOQuery6.Parameters.ParamByName('departamento2').Value := (110);
-    Form8.ADOQuery6.Open;
-    DBGrid5.Columns[0].FieldName := 'VENDEDOR';
-    DBGrid5.Columns[1].FieldName := 'Total Atendimentos'  ;
-    DBGrid5.Columns[2].FieldName := 'Ativos' ;
-    DBGrid5.Columns[3].FieldName := 'Receptivos' ;
-    DBGrid5.Columns[4].FieldName := 'Showroom' ;
-    DBGrid5.Columns[5].FieldName := 'Telefone' ;
-    DBGrid5.Columns[6].FieldName := 'Lead' ;
-    DBGrid5.Columns[7].FieldName := 'Total Vendas' ;
-    DBGrid5.Columns[8].FieldName := 'Aproveitamento' ;
-    DBGrid5.Columns[9].FieldName := 'Vendas Perdidas' ;
-    DBGrid5.Columns[10].FieldName := 'Descarte' ;
-    DimensionarGrid( DBGrid5 );
-  end
-  else
-  begin
-    Form8.ADOQuery6.Parameters.ParamByName('departamento1').Value := (200);
-    Form8.ADOQuery6.Parameters.ParamByName('departamento2').Value := (210);
-
-      Form8.ADOQuery6.Open;
-    DBGrid5.Columns[0].FieldName := 'VENDEDOR';
-    DBGrid5.Columns[1].FieldName := 'CLIENTE'  ;
-    DBGrid5.Columns[2].FieldName := 'DATAPEDIDO' ;
-    DBGrid5.Columns[3].FieldName := 'FORMAPAGTO' ;
-
-  end;
-
+    Form8.ADOQuery12.Close;
   Form8.ADOQuery7.Close;
-  Form8.ADOQuery7.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.DateTime);
-  Form8.ADOQuery7.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.DateTime);
   if DBLookupCombobox1.KeyValue = 100 then
   begin
-    Form8.ADOQuery7.Parameters.ParamByName('departamento').Value := (100);
-    Form8.ADOQuery7.Parameters.ParamByName('departamento2').Value := (110);
+      Form8.DataSource7.DataSet := ADOQuery7;
+      Form8.ADOQuery7.Parameters.ParamByName('inicio').Value := DatetoStr			(DateTimePicker3.DateTime);
+      Form8.ADOQuery7.Parameters.ParamByName('fim').Value := DatetoStr			(DateTimePicker4.DateTime);
       Form8.ADOQuery7.Open;
       DimensionarGrid( DBGrid6 );
   end
   else
   begin
-      Form8.ADOQuery7.Parameters.ParamByName('departamento').Value := (200);
-      Form8.ADOQuery7.Parameters.ParamByName('departamento2').Value := (210);
-      Form8.ADOQuery7.Open;
+      Form8.DataSource7.DataSet := ADOQuery12;
+      Form8.ADOQuery12.Parameters.ParamByName('inicio').Value := DatetoStr			(DateTimePicker3.DateTime);
+      Form8.ADOQuery12.Parameters.ParamByName('fim').Value := DatetoStr			(DateTimePicker4.DateTime);
+      Form8.ADOQuery12.Open;
+      DimensionarGrid( DBGrid6 );
   end;
 
-  Form8.ADOQuery8.Close;
+    Form8.ADOQuery8.Close;
   Form8.ADOQuery8.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.DateTime);
   Form8.ADOQuery8.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.DateTime);
   if DBLookupCombobox1.KeyValue = 100 then
@@ -439,7 +407,112 @@ begin
   e := (StrToFloat(dbedit5.Text)*100)/StrToFloat(dbedit1.Text);
   dbedit6.Text:= FormatFloat('#,,0.0',e)+'%';
 
-  Screen.Cursor := crDefault;
+  if DBLookupCombobox1.KeyValue = 100 then
+  begin
+    Form8.DataSource6.DataSet := ADOQuery6;
+    Form8.ADOQuery6.Close;
+    Form8.ADOQuery6.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('inicio1').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim1').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('inicio2').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim2').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('inicio3').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim3').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('inicio4').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim4').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('inicio5').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim5').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('inicio6').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim6').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('inicio7').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim7').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('inicio8').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim8').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('inicio9').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim9').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('inicio10').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim10').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('inicio11').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim11').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('inicio12').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim12').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('inicio13').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim13').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('inicio14').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery6.Parameters.ParamByName('fim14').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery6.Open;
+    DBGrid5.Columns[0].FieldName := 'VENDEDOR';
+    DBGrid5.Columns[1].FieldName := 'Total Atendimentos'  ;
+    DBGrid5.Columns[2].FieldName := 'Ativos' ;
+    DBGrid5.Columns[3].FieldName := 'Receptivos' ;
+    DBGrid5.Columns[4].FieldName := 'Showroom' ;
+    DBGrid5.Columns[5].FieldName := 'Telefone' ;
+    DBGrid5.Columns[6].FieldName := 'Lead' ;
+    DBGrid5.Columns[7].FieldName := 'Total Vendas' ;
+    DBGrid5.Columns[8].FieldName := 'Venda Loja' ;
+    DBGrid5.Columns[9].FieldName := 'Venda Direta' ;
+    DBGrid5.Columns[10].FieldName := 'Aproveitamento' ;
+    DBGrid5.Columns[11].FieldName := 'Vendas Perdidas' ;
+    DBGrid5.Columns[12].FieldName := 'Descarte' ;
+    DimensionarGrid( DBGrid5 );
+    Screen.Cursor := crDefault;
+  end
+  else
+  begin
+    Form8.DataSource6.DataSet := ADOQuery14;
+    Form8.ADOQuery14.Close;
+    Form8.ADOQuery14.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('inicio1').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim1').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('inicio2').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim2').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('inicio3').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim3').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('inicio4').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim4').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('inicio5').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim5').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('inicio6').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim6').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('inicio7').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim7').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('inicio8').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim8').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('inicio9').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim9').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('inicio10').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim10').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('inicio11').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim11').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('inicio12').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim12').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('inicio13').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim13').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('inicio14').Value := DatetoStr(DateTimePicker3.Date);
+    Form8.ADOQuery14.Parameters.ParamByName('fim14').Value := DatetoStr(DateTimePicker4.Date);
+    Form8.ADOQuery14.Open;
+    DBGrid5.Columns[0].FieldName := 'VENDEDOR';
+    DBGrid5.Columns[1].FieldName := 'Total Atendimentos'  ;
+    DBGrid5.Columns[2].FieldName := 'Ativos' ;
+    DBGrid5.Columns[3].FieldName := 'Receptivos' ;
+    DBGrid5.Columns[4].FieldName := 'Showroom' ;
+    DBGrid5.Columns[5].FieldName := 'Telefone' ;
+    DBGrid5.Columns[6].FieldName := 'Lead' ;
+    DBGrid5.Columns[7].FieldName := 'Total Vendas' ;
+    DBGrid5.Columns[8].FieldName := 'Venda Loja' ;
+    DBGrid5.Columns[9].FieldName := 'Venda Direta' ;
+    DBGrid5.Columns[10].FieldName := 'Aproveitamento' ;
+    DBGrid5.Columns[11].FieldName := 'Vendas Perdidas' ;
+    DBGrid5.Columns[12].FieldName := 'Descarte' ;
+    DimensionarGrid( DBGrid5 );
+    Screen.Cursor := crDefault;
+
+
+  end;
+
+
 end;
 
 procedure TForm8.FormResize(Sender: TObject);
@@ -455,6 +528,123 @@ begin
   datetimepicker4.date:= EndOfTheMonth(now);
   DBLookupComboBox1.KeyValue:= 100;
   Dados.ActivePage := Atendimentos;
+end;
+
+procedure TForm8.DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  grid: TDBGrid;
+  linha: Integer;
+begin
+  // obtém um referência ao DBGrid
+  grid := sender as TDBGrid;
+
+  // obtém o número da linha atual usando a propriedade
+  // RecNo da classe TDataSet
+  linha := grid.DataSource.DataSet.RecNo;
+
+  // o número da linha é par?
+  if Odd(linha) then
+    begin
+      grid.Canvas.Brush.Color := $00D8F5DC;
+      grid.Canvas.Font.Color := clBlack
+    end
+  else
+    begin
+      grid.Canvas.Brush.Color := clSilver;
+      grid.Canvas.Font.Color := clBlack
+    end;
+
+  if DataCol=1 then
+  Begin
+    TDBGrid(Sender).Canvas.Brush.Color := clRed;
+    TDBGrid(Sender).Canvas.Font.Color := clWhite;
+  End;
+
+
+  // vamos terminar de desenhar a célula
+  grid.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+
+
+
+end;
+
+procedure TForm8.DBGrid4DrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  grid: TDBGrid;
+  linha: Integer;
+begin
+  // obtém um referência ao DBGrid
+  grid := sender as TDBGrid;
+
+  // obtém o número da linha atual usando a propriedade
+  // RecNo da classe TDataSet
+  linha := grid.DataSource.DataSet.RecNo;
+
+  // o número da linha é par?
+  if Odd(linha) then
+    begin
+      grid.Canvas.Brush.Color := $00D8F5DC;
+      grid.Canvas.Font.Color := clBlack
+    end
+  else
+    begin
+      grid.Canvas.Brush.Color := clSilver;
+      grid.Canvas.Font.Color := clBlack
+    end;
+
+  if DataCol=1 then
+  Begin
+    TDBGrid(Sender).Canvas.Brush.Color := clRed;
+    TDBGrid(Sender).Canvas.Font.Color := clWhite;
+  End;
+
+
+  // vamos terminar de desenhar a célula
+  grid.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+
+
+
+end;
+
+procedure TForm8.DBGrid6DrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  grid: TDBGrid;
+  linha: Integer;
+begin
+  // obtém um referência ao DBGrid
+  grid := sender as TDBGrid;
+
+  // obtém o número da linha atual usando a propriedade
+  // RecNo da classe TDataSet
+  linha := grid.DataSource.DataSet.RecNo;
+
+  // o número da linha é par?
+  if Odd(linha) then
+    begin
+      grid.Canvas.Brush.Color := $00D8F5DC;
+      grid.Canvas.Font.Color := clBlack
+    end
+  else
+    begin
+      grid.Canvas.Brush.Color := clSilver;
+      grid.Canvas.Font.Color := clBlack
+    end;
+
+  if DataCol=1 then
+  Begin
+    TDBGrid(Sender).Canvas.Brush.Color := clRed;
+    TDBGrid(Sender).Canvas.Font.Color := clWhite;
+  End;
+
+
+  // vamos terminar de desenhar a célula
+  grid.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+
+
+
 end;
 
 procedure TForm8.DimensionarGrid(dbg: TDBGrid);

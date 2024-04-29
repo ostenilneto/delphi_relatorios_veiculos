@@ -2461,7 +2461,6 @@ object Form6: TForm6
     Align = alClient
     OwnerDraw = True
     TabOrder = 1
-    ExplicitHeight = 622
     object DBGrid3: TDBGrid
       AlignWithMargins = True
       Left = 7
@@ -2596,7 +2595,7 @@ object Form6: TForm6
       'from CAC_CONTATO '
       'where DTA_CONTATO >= TO_DATE(:inicio,'#39'dd/mm/yyyy'#39') '
       'and DTA_CONTATO < TO_DATE(:fim,'#39'dd/mm/yyyy'#39')+1'
-      'and DEPARTAMENTO IN (100, 110)'
+      'and DEPARTAMENTO IN (100, 110, 200, 210)'
       'group by EMPRESA, REVENDA, CONTATO) TMP1 '
       'on TMP1.EMPRESA = CCO.EMPRESA '
       'and TMP1.REVENDA = CCO.REVENDA '
@@ -2614,7 +2613,7 @@ object Form6: TForm6
       'and FVE.REVENDA = CCO.REVENDA '
       'and FVE.USUARIO = CCO.USUARIO_ENCAMINHADO '
       'and FVE.FUNCAO = '#39'V'#39' '
-      'and CCO.DEPARTAMENTO IN (100, 110)'
+      'and CCO.DEPARTAMENTO IN (100, 110, 200, 210)'
       'and DES_ORIGEM_TRAFEGO like '#39'LEAD%'#39
       'and not exists '
       
@@ -2684,7 +2683,7 @@ object Form6: TForm6
       'and ( (CCO.EMPRESA = 1 and CCO.REVENDA = 1)) '
       'and CCO.ORIGEM = '#39'V'#39' '
       'and FVE.FUNCAO = '#39'V'#39' '
-      'and CCO.DEPARTAMENTO IN (100, 110)'
+      'and CCO.DEPARTAMENTO IN (100, 110, 200, 210)'
       'and COT.ORIGEM_TRAFEGO = :origem'
       'and COT.EMPRESA = CCO.EMPRESA '
       'and CCO.CLIENTE = CLI.CLIENTE'
@@ -2733,7 +2732,6 @@ object Form6: TForm6
     Top = 176
   end
   object ADOQuery5: TADOQuery
-    Active = True
     Connection = ADOConnection1
     CursorType = ctStatic
     Parameters = <>

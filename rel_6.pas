@@ -23,7 +23,6 @@ type
     ADOQuery3: TADOQuery;
     Label1: TLabel;
     DBLookupComboBox1: TDBLookupComboBox;
-    ComboBox1: TComboBox;
     Label2: TLabel;
     DateTimePicker3: TDateTimePicker;
     DateTimePicker4: TDateTimePicker;
@@ -34,6 +33,7 @@ type
     DBGrid1: TDBGrid;
     DBGrid2: TDBGrid;
     ADOQuery4: TADOQuery;
+    ComboBox1: TComboBox;
     procedure FormShow(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -41,6 +41,10 @@ type
     procedure DimensionarGrid(dbg: TDBGrid);
     procedure ComboBox1Change(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
+    procedure DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
 
   private
     { Private declarations }
@@ -153,6 +157,56 @@ begin
   Form7.ComboBox1.ItemIndex := 0;
   Form7.ADOQuery1.Open;
   DimensionarGrid( DBGrid2 );
+end;
+
+procedure TForm7.DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  if (TStringGrid(DBGrid1).RowCount-1) < 10 then //Se tiver menos de 10 linhas
+    ShowScrollBar(DBGrid1.Handle,SB_HORZ,False); //Remove barra Vertical
+    ShowScrollBar(DBGrid1.Handle,SB_VERT,False); //Remove barra Vertical
+end;
+
+procedure TForm7.DBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  grid: TDBGrid;
+  linha: Integer;
+begin
+  // obtém um referência ao DBGrid
+  grid := sender as TDBGrid;
+
+  // obtém o número da linha atual usando a propriedade
+  // RecNo da classe TDataSet
+  linha := grid.DataSource.DataSet.RecNo;
+
+  // o número da linha é par?
+  if Odd(linha) then
+    begin
+      grid.Canvas.Brush.Color := $00D8F5DC;
+      grid.Canvas.Font.Color := clBlack
+    end
+  else
+    begin
+      grid.Canvas.Brush.Color := clSilver;
+      grid.Canvas.Font.Color := clBlack
+    end;
+
+  if DataCol=1 then
+  Begin
+    TDBGrid(Sender).Canvas.Brush.Color := clRed;
+    TDBGrid(Sender).Canvas.Font.Color := clWhite;
+  End;
+
+
+  // vamos terminar de desenhar a célula
+  grid.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+
+  if (TStringGrid(DBGrid2).RowCount-1) < 10 then //Se tiver menos de 10 linhas
+    ShowScrollBar(DBGrid2.Handle,SB_HORZ,False); //Remove barra Vertical
+    ShowScrollBar(DBGrid2.Handle,SB_VERT,False); //Remove barra Vertical
+
+
 end;
 
 procedure TForm7.DimensionarGrid(dbg: TDBGrid);

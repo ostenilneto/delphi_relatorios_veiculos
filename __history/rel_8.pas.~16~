@@ -1,0 +1,95 @@
+unit rel_8;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.DBCtrls,
+  Vcl.ComCtrls, Vcl.ExtCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids, DateUtils, Data.Win.ADODB;
+
+type
+  TForm9 = class(TForm)
+    Panel1: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
+    ComboBox1: TComboBox;
+    Label2: TLabel;
+    DateTimePicker3: TDateTimePicker;
+    Label3: TLabel;
+    Label4: TLabel;
+    DateTimePicker4: TDateTimePicker;
+    DBLookupComboBox1: TDBLookupComboBox;
+    Label1: TLabel;
+    DBGrid1: TDBGrid;
+    ADOConnection1: TADOConnection;
+    ADOQuery1: TADOQuery;
+    DataSource1: TDataSource;
+    ADOQuery1FAMILIA: TIntegerField;
+    ADOQuery1DES_FAMILIA: TStringField;
+    procedure FormShow(Sender: TObject);
+    procedure ComboBox1Change(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form9: TForm9;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm9.BitBtn2Click(Sender: TObject);
+begin
+  Form9.Close;
+end;
+
+procedure TForm9.ComboBox1Change(Sender: TObject);
+begin
+  if ComboBox1.ItemIndex = 0
+        then begin
+        DBLookupComboBox1.Enabled := False;
+        //Form4.ADOQuery1.Close;
+        //Form4.ADOQuery2.Close;
+        //Form4.ADOQuery3.Close;
+        //Form4.ADOQuery1.Parameters.ParamByName('gerente1').Value := 257;
+        //Form4.ADOQuery1.Parameters.ParamByName('gerente2').Value := 343;
+        //Form4.ADOQuery3.Parameters.ParamByName('gerente1').Value := 257;
+        //Form4.ADOQuery3.Parameters.ParamByName('gerente2').Value := 343;
+        //Form4.ADOQuery1.Open;
+        //Form4.ADOQuery3.Open;
+    end
+    else begin
+        DBLookupComboBox1.Enabled := True;
+        Form9.ADOQuery1.Close;
+        //Form4.ADOQuery2.Close;
+        //Form4.ADOQuery3.Close;
+        //Form4.ADOQuery1.Parameters.ParamByName('gerente1').Value := 268;
+        //Form4.ADOQuery1.Parameters.ParamByName('gerente2').Value := 0;
+        //Form4.ADOQuery3.Parameters.ParamByName('gerente1').Value := 268;
+        //Form4.ADOQuery3.Parameters.ParamByName('gerente2').Value := 0;
+        Form9.ADOQuery1.Open;
+        //Form4.ADOQuery3.Open;
+        DBLookupComboBox1.KeyValue:= 4;
+    end;
+    //DimensionarGrid( DBGrid3 );
+end;
+
+procedure TForm9.FormCreate(Sender: TObject);
+begin
+  datetimepicker3.date:= StartOfTheMonth(now);
+  datetimepicker4.DateTime:= now;
+end;
+
+procedure TForm9.FormShow(Sender: TObject);
+begin
+  ComboBox1.ItemIndex := 0;
+end;
+
+end.

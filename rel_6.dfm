@@ -2382,7 +2382,7 @@ object Form7: TForm7
       AlignWithMargins = True
       Left = 334
       Top = 43
-      Width = 236
+      Width = 307
       Height = 23
       Anchors = [akLeft, akTop, akBottom]
       DropDownRows = 20
@@ -2396,26 +2396,6 @@ object Form7: TForm7
       ListSource = DataSource3
       ParentFont = False
       TabOrder = 3
-    end
-    object ComboBox1: TComboBox
-      Left = 334
-      Top = 13
-      Width = 145
-      Height = 23
-      Style = csDropDownList
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Arial'
-      Font.Style = []
-      ItemIndex = 0
-      ParentFont = False
-      TabOrder = 4
-      Text = 'VE'#205'CULOS NOVOS'
-      OnChange = ComboBox1Change
-      Items.Strings = (
-        'VE'#205'CULOS NOVOS'
-        'SEMINOVOS')
     end
     object DateTimePicker3: TDateTimePicker
       AlignWithMargins = True
@@ -2432,7 +2412,7 @@ object Form7: TForm7
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 4
     end
     object DateTimePicker4: TDateTimePicker
       AlignWithMargins = True
@@ -2450,7 +2430,7 @@ object Form7: TForm7
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 5
     end
   end
   object TabControl2: TTabControl
@@ -2476,6 +2456,7 @@ object Form7: TForm7
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      OnDrawColumnCell = DBGrid1DrawColumnCell
     end
     object DBGrid2: TDBGrid
       AlignWithMargins = True
@@ -2501,7 +2482,31 @@ object Form7: TForm7
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      OnDrawColumnCell = DBGrid2DrawColumnCell
     end
+  end
+  object ComboBox1: TComboBox
+    Left = 334
+    Top = 14
+    Width = 99
+    Height = 23
+    Style = csDropDownList
+    BiDiMode = bdLeftToRight
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Arial'
+    Font.Pitch = fpFixed
+    Font.Style = [fsBold]
+    ItemIndex = 0
+    ParentBiDiMode = False
+    ParentFont = False
+    TabOrder = 2
+    Text = '      NOVOS'
+    OnChange = ComboBox1Change
+    Items.Strings = (
+      '      NOVOS'
+      'SEMINOVOS')
   end
   object DataSource1: TDataSource
     Left = 160
@@ -2534,18 +2539,20 @@ object Form7: TForm7
     Prepared = True
     SQL.Strings = (
       'select To_Char(cc.dta_contato, '#39'dd/mm/yyyy'#39') DATA,'
+      'count(*) Total,'
       'sum((case when FVE.USUARIO = 468 then 1 else 0 end)) "Alline",'
-      'sum((case when FVE.USUARIO = 232 then 1 else 0 end)) "Altamiro",'
-      'sum((case when FVE.USUARIO = 343 then 1 else 0 end)) "Denis",'
+      'sum((case when FVE.USUARIO = 607 then 1 else 0 end)) "Danilo",'
+      'sum((case when FVE.USUARIO = 343 then 1 else 0 end)) "D'#234'nis",'
+      'sum((case when FVE.USUARIO = 609 then 1 else 0 end)) "Diego",'
       
         'sum((case when FVE.USUARIO = 118 then 1 else 0 end)) "Guilherme"' +
         ', '
       'sum((case when FVE.USUARIO = 595 then 1 else 0 end)) "J'#233'ssica",'
       'sum((case when FVE.USUARIO = 375 then 1 else 0 end)) "Joao",'
       'sum((case when FVE.USUARIO = 116 then 1 else 0 end)) "Lara",'
+      'sum((case when FVE.USUARIO = 245 then 1 else 0 end)) "Layane",'
       'sum((case when FVE.USUARIO = 257 then 1 else 0 end)) "Mario",'
-      'sum((case when FVE.USUARIO = 534 then 1 else 0 end)) "Rodrigo",'
-      'count(*) Total'
+      'sum((case when FVE.USUARIO = 534 then 1 else 0 end)) "Rodrigo"'
       'from FAT_CLIENTE FC, '
       'CAC_CONTATO CC '
       'INNER JOIN FAT_VENDEDOR FVE'
@@ -2612,9 +2619,7 @@ object Form7: TForm7
         'where (CCO.DTA_CONTATO >= To_Date(:inicio,'#39'dd/mm/yyyy'#39') and CCO.' +
         'DTA_CONTATO < To_Date(:fim, '#39'dd/mm/yyyy'#39')+1) '
       'and ( (CCO.EMPRESA = 1 and CCO.REVENDA = 1)) '
-      'and CCO.ORIGEM = '#39'V'#39' '
-      'and FVE.FUNCAO = '#39'V'#39' '
-      'and FVE.USUARIO = :vendedor'
+      'and CCO.ORIGEM = '#39'V'#39' and FVE.USUARIO = :vendedor'
       'and CCO.DEPARTAMENTO IN (:departamento1, :departamento2)'
       'and COT.EMPRESA = CCO.EMPRESA '
       'and CCO.CLIENTE = CLI.CLIENTE'
@@ -2678,16 +2683,13 @@ object Form7: TForm7
       end>
     SQL.Strings = (
       'select To_Char(cc.dta_contato, '#39'dd/mm/yyyy'#39') DATA,'
+      'count(*) Total,'
       'sum((case when FVE.USUARIO = 521 then 1 else 0 end)) "DARLON",'
-      
-        'sum((case when FVE.USUARIO = 118 then 1 else 0 end)) "GUILHERME"' +
-        ', '
       'sum((case when FVE.USUARIO = 496 then 1 else 0 end)) "MARCUS", '
       'sum((case when FVE.USUARIO = 257 then 1 else 0 end)) "MARIO",'
       'sum((case when FVE.USUARIO = 439 then 1 else 0 end)) "MILENA", '
-      'sum((case when FVE.USUARIO = 329 then 1 else 0 end)) "RICARDO", '
       'sum((case when FVE.USUARIO = 268 then 1 else 0 end)) "PLINIO", '
-      'count(*) Total'
+      'sum((case when FVE.USUARIO = 329 then 1 else 0 end)) "RICARDO"'
       'from FAT_CLIENTE FC, '
       'CAC_CONTATO CC '
       'INNER JOIN FAT_VENDEDOR FVE'
@@ -2696,13 +2698,14 @@ object Form7: TForm7
       'where CC.EMPRESA = 1 and FC.CLIENTE = CC.CLIENTE '
       'and cc.dta_contato >= To_Date(:inicio,'#39'dd/mm/yyyy'#39') '
       'and cc.dta_contato < To_Date(:fim, '#39'dd/mm/yyyy'#39') + 1'
+      'and CC.origem = '#39'V'#39
       'and CC.DEPARTAMENTO in (200, 210)'
-      
-        'and FVE.USUARIO in (select UU.USUARIO from GER_USUARIO UU where ' +
-        'not UU.USUARIO = 434 and UU.GERENTE in (268) )'
+      'and FVE.USUARIO in ('
+      'select UU.USUARIO from GER_USUARIO UU where'
+      'UU.usuario =257 or UU.GERENTE = 268)'
       'group by To_Char(cc.dta_contato, '#39'dd/mm/yyyy'#39')'
       'ORDER BY To_Char(cc.dta_contato, '#39'dd/mm/yyyy'#39')')
-    Left = 224
-    Top = 368
+    Left = 88
+    Top = 224
   end
 end

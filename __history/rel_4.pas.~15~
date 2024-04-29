@@ -1,0 +1,159 @@
+unit rel_4;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.ExtCtrls, Data.Win.ADODB,
+  Vcl.StdCtrls, Vcl.Buttons, ComObj, DateUtils, Vcl.ComCtrls, Vcl.Grids, Vcl.DBGrids,
+  Vcl.DBCtrls;
+
+type
+  TForm5 = class(TForm)
+    Panel1: TPanel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label1: TLabel;
+    DateTimePicker3: TDateTimePicker;
+    DateTimePicker4: TDateTimePicker;
+    DBLookupComboBox1: TDBLookupComboBox;
+    BitBtn1: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn2: TBitBtn;
+    TabControl2: TTabControl;
+    DBGrid3: TDBGrid;
+    DBGrid4: TDBGrid;
+    StatusBar2: TStatusBar;
+    DataSource1: TDataSource;
+    ADOConnection1: TADOConnection;
+    ADOQuery1: TADOQuery;
+    Timer1: TTimer;
+    ADOQuery2: TADOQuery;
+    DataSource2: TDataSource;
+    DataSource3: TDataSource;
+    ADOQuery3: TADOQuery;
+    ADOQuery3VENDEDOR: TIntegerField;
+    ADOQuery3NOME: TStringField;
+    procedure FormCreate(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure DimensionarGrid(dbg: TDBGrid);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form5: TForm5;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm5.FormCreate(Sender: TObject);
+begin
+  datetimepicker3.date:= StartOfTheMonth(now);;
+  datetimepicker4.date:= now;
+end;
+
+procedure TForm5.Timer1Timer(Sender: TObject);
+begin
+ Statusbar2.Panels [0].Text := ' '+datetostr(date);// para data
+ statusbar2.Panels [1].Text := ' '+timetostr(now);//para hora
+end;
+
+procedure TForm5.BitBtn1Click(Sender: TObject);
+begin
+  DBGrid3.DataSource.DataSet.Close;
+end;
+
+procedure TForm5.BitBtn2Click(Sender: TObject);
+begin
+  Form5.Close;
+end;
+
+procedure TForm5.BitBtn4Click(Sender: TObject);
+begin
+  Form5.ADOQuery1.Close;
+  Form5.ADOQuery1.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
+  Form5.ADOQuery1.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
+  Form5.ADOQuery1.Open;
+  DimensionarGrid( DBGrid3 );
+  Form5.ADOQuery2.Close;
+  Form5.ADOQuery2.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
+  Form5.ADOQuery2.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
+  if DBLookupCombobox1.KeyValue = null then
+  begin
+    MessageDlg('Preencha o Vendedor!', mtWarning,[mbOk], 0);
+  end
+  else
+  begin
+      Form5.ADOQuery2.Parameters.ParamByName('vendedor').Value := DBLookupComboBox1.KeyValue;
+      Form5.ADOQuery2.Open;
+      DimensionarGrid( DBGrid4 );
+  end;
+
+end;
+
+procedure TForm5.DimensionarGrid(dbg: TDBGrid);
+type
+  TArray = Array of Integer;
+  procedure AjustarColumns(Swidth, TSize: Integer; Asize: TArray);
+  var
+    idx: Integer;
+  begin
+    if TSize = 0 then
+    begin
+      TSize := dbg.Columns.count;
+      for idx := 0 to dbg.Columns.count - 1 do
+        dbg.Columns[idx].Width := (dbg.Width - dbg.Canvas.TextWidth('AAAAAA')
+          ) div TSize
+    end
+    else
+      for idx := 0 to dbg.Columns.count - 1 do
+        dbg.Columns[idx].Width := dbg.Columns[idx].Width +
+          (Swidth * Asize[idx] div TSize);
+  end;
+
+var
+  idx, Twidth, TSize, Swidth: Integer;
+  AWidth: TArray;
+  Asize: TArray;
+  NomeColuna: String;
+begin
+  SetLength(AWidth, dbg.Columns.count);
+  SetLength(Asize, dbg.Columns.count);
+  Twidth := 0;
+  TSize := 0;
+  for idx := 0 to dbg.Columns.count - 1 do
+  begin
+    NomeColuna := dbg.Columns[idx].Title.Caption;
+    dbg.Columns[idx].Width := dbg.Canvas.TextWidth
+      (dbg.Columns[idx].Title.Caption + 'A');
+    AWidth[idx] := dbg.Columns[idx].Width;
+    Twidth := Twidth + AWidth[idx];
+
+    if Assigned(dbg.Columns[idx].Field) then
+      Asize[idx] := dbg.Columns[idx].Field.Size
+    else
+      Asize[idx] := 1;
+
+    TSize := TSize + Asize[idx];
+  end;
+  if TDBGridOption.dgColLines in dbg.Options then
+    Twidth := Twidth + dbg.Columns.count;
+
+  // adiciona a largura da coluna indicada do cursor
+  if TDBGridOption.dgIndicator in dbg.Options then
+    Twidth := Twidth + IndicatorWidth;
+
+  Swidth := dbg.ClientWidth - Twidth;
+  AjustarColumns(Swidth, TSize, Asize);
+end;
+
+
+end.

@@ -2634,6 +2634,7 @@ object Form3: TForm3
       'AND nf.CLIENTE = cli.CLIENTE'
       'AND cli.uf_entrega <> '#39'MG'#39
       'AND nf.NUMERO_NOTA_FISCAL = ITM.numero_nota_fiscal'
+      'AND nf.SERIE_NOTA_FISCAL = ITM.SERIE_NOTA_FISCAL'
       'AND nf.REVENDA = ITM.REVENDA '
       'AND ITM.CODFISCAL_OPERACAO = CFO.CODFISCAL_OPERACAO '
       'AND ITM.REVENDA = CFO.REVENDA'
@@ -2682,6 +2683,7 @@ object Form3: TForm3
       'AND nf.CLIENTE = cli.CLIENTE'
       'AND cli.uf_entrega <> '#39'MG'#39
       'AND nf.NUMERO_NOTA_FISCAL = ITS.numero_nota_fiscal'
+      'AND nf.SERIE_NOTA_FISCAL = ITS.SERIE_NOTA_FISCAL'
       'AND nf.REVENDA = ITS.REVENDA '
       'AND ITS.CODFISCAL_OPERACAO = CFO.CODFISCAL_OPERACAO '
       'AND ITS.REVENDA = CFO.REVENDA'
@@ -2736,6 +2738,7 @@ object Form3: TForm3
       'AND nf.CLIENTE = cli.CLIENTE'
       'AND cli.uf_entrega <> '#39'MG'#39
       'AND nf.NUMERO_NOTA_FISCAL = ITV.numero_nota_fiscal'
+      'AND nf.SERIE_NOTA_FISCAL = ITV.SERIE_NOTA_FISCAL'
       'AND nf.REVENDA = ITV.REVENDA '
       'AND ITV.CODFISCAL_OPERACAO = CFO.CODFISCAL_OPERACAO '
       'AND ITV.REVENDA = CFO.REVENDA'

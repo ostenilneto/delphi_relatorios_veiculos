@@ -1,0 +1,583 @@
+object Form6: TForm6
+  Left = 0
+  Top = 0
+  Caption = 'LEADS'
+  ClientHeight = 749
+  ClientWidth = 1350
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  WindowState = wsMaximized
+  OnCreate = FormCreate
+  OnResize = FormResize
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 730
+    Width = 1350
+    Height = 19
+    Panels = <
+      item
+        Alignment = taCenter
+        Width = 100
+      end
+      item
+        Alignment = taCenter
+        Width = 100
+      end
+      item
+        Alignment = taCenter
+        Text = 'DEPARTAMENTO DE TI'
+        Width = 150
+      end
+      item
+        Alignment = taCenter
+        Text = 'Distrive - Matriz Uberaba/MG      Distrive - Filial Arax'#225'/MG '
+        Width = 200
+      end>
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 1350
+    Height = 88
+    Align = alTop
+    TabOrder = 1
+    DesignSize = (
+      1350
+      88)
+    object Label3: TLabel
+      Left = 43
+      Top = 22
+      Width = 72
+      Height = 16
+      Anchors = [akLeft, akTop, akBottom]
+      BiDiMode = bdLeftToRight
+      Caption = 'Data inicial: '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentBiDiMode = False
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 188
+      Top = 22
+      Width = 62
+      Height = 16
+      Anchors = [akLeft, akTop, akBottom]
+      BiDiMode = bdLeftToRight
+      Caption = 'Data final: '
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentBiDiMode = False
+      ParentFont = False
+    end
+    object Label1: TLabel
+      Left = 375
+      Top = 22
+      Width = 110
+      Height = 16
+      Anchors = [akLeft, akTop, akBottom]
+      Caption = 'Origem de Tr'#225'fego:'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+    end
+    object DateTimePicker3: TDateTimePicker
+      AlignWithMargins = True
+      Left = 43
+      Top = 42
+      Width = 105
+      Height = 23
+      Anchors = [akLeft, akTop, akBottom]
+      Date = 42152.000000000000000000
+      Time = 0.620817881943367000
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+    end
+    object DateTimePicker4: TDateTimePicker
+      AlignWithMargins = True
+      Left = 188
+      Top = 42
+      Width = 105
+      Height = 23
+      Anchors = [akLeft, akTop, akBottom]
+      Constraints.MinWidth = 24
+      Date = 42152.000000000000000000
+      Time = 42152.000000000000000000
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+    end
+    object DBLookupComboBox1: TDBLookupComboBox
+      AlignWithMargins = True
+      Left = 375
+      Top = 42
+      Width = 267
+      Height = 23
+      Anchors = [akLeft, akTop, akBottom]
+      DropDownRows = 20
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Arial'
+      Font.Style = []
+      KeyField = 'ORIGEM_TRAFEGO'
+      ListField = 'DES_ORIGEM_TRAFEGO'
+      ListSource = DataSource3
+      ParentFont = False
+      TabOrder = 2
+    end
+    object BitBtn1: TBitBtn
+      AlignWithMargins = True
+      Left = 863
+      Top = 24
+      Width = 120
+      Height = 41
+      Anchors = [akTop, akRight, akBottom]
+      Caption = 'Limpar'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      Glyph.Data = {
+        E6040000424DE604000000000000360000002800000014000000140000000100
+        180000000000B0040000C40E0000C40E00000000000000000000FFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFDADADAFEFEFECDCDCD0000000000000000000000
+        000000000000000000000000000000001A1A1AECECECFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFF8787870000003D3D3DFFFFFFE4E4E4767676747474777777767676
+        767676767676777777707070828282F5F5F5FFFFFFFFFFFFFFFFFFFFFFFF7171
+        71000000000000000000555555ECECECFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF909090000000000000
+        000000000000000000969696FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF71717100000000000000000000000000
+        0000AEAEAEFFFFFFDEDEDEF1F1F1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFF858585000000000000000000000000030303868686FFFF
+        FFDBDBDB1E1E1E363636FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFB0B0B0000000000000000000000000030303939393FFFFFFF2F2F22C2C2C
+        0000000000005B5B5BF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB4B4
+        B4000000000000000000000000878787FFFFFFFFFFFF00000000000000000000
+        00000000005B5B5BFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9C9C9C
+        000000000000AFAFAFFFFFFFF4F4F40000000000000000000000000000000000
+        00000000414141F1F1F1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7A7A7A82
+        8282FFFFFFDCDCDC2C2C2C000000000000000000000000000000000000000000
+        000000404040FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8F8F8FFFFFFC7C7
+        C72E2E2E00000000000000000000000000000000000000000000000000000000
+        00005B5B5BF7F7F7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA6A6A6000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        005A5A5AFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9C9C9C00000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        404040F5F5F5FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8484840000000000
+        00000000000000000000000000000000000000000000000000000000000000A6
+        A6A6FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9C9C9C000000000000
+        0000000000000000000000000000000000000000000000000D0D0DD3D3D3FFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF84848400000000000000
+        0000000000000000000000000000000000030303B2B2B2FFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9C9C9C0000000000000000
+        00000000000000000000131313C9C9C9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF848484000000000000000000
+        000000030303C9C9C9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9C9C9C0000000000000F0F0FB2
+        B2B2FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9999990F0F0FC8C8C8FFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF}
+      ParentFont = False
+      Spacing = 10
+      TabOrder = 3
+      OnClick = BitBtn1Click
+    end
+    object BitBtn4: TBitBtn
+      AlignWithMargins = True
+      Left = 1015
+      Top = 24
+      Width = 120
+      Height = 41
+      Anchors = [akTop, akRight, akBottom]
+      Caption = 'Pesquisar'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      Glyph.Data = {
+        E6040000424DE604000000000000360000002800000014000000140000000100
+        180000000000B0040000C40E0000C40E00000000000000000000FFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFE7E7E73D3D3D000000C5C5C5FFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFF6F6F61A1A1A3C3C3C454545131313FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEDEDED3F
+        3F3F1C1C1CAFAFAF151515737373FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFBFB484848000000C4C4
+        C4000000303030F6F6F6FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFBFBF4
+        F4F4F9F9F9FFFFFFFFFFFFFFFFFFEEEEEE323232000000C2C2C2000000484848
+        FBFBFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFBFBF6565654E4E4E3232324242
+        42A2A2A2FFFFFFFFFFFF3838380A0A0AA4A4A40C0C0C454545EDEDEDFFFFFFFF
+        FFFFFFFFFFFFFFFFEDEDED7070700000002525256363636D6D6D5C5C5CA4A4A4
+        FEFEFE626262080808ADADAD2D2D2D272727FAFAFAFFFFFFFFFFFFFFFFFFFFFF
+        FFF9F9F94B4B4B000000DBDBDBF2F2F2FFFFFFFFFFFFFEFEFEFFFFFFFFFFFF00
+        0000020202232323262626E3E3E3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF575757
+        000000FBFBFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000
+        001E1E1EEAEAEAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE8E8E8040404A0A0A0FF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFEFEF0B0B0B
+        9D9D9DFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFB3B3B3101010DEDEDEFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFEFE5555554A4A4AFB
+        FBFBFFFFFFFFFFFFFFFFFFFFFFFF636363444444FFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8787871C1C1CE8E8E8FFFF
+        FFFFFFFFFFFFFFFFFFFF3D3D3D767676D4D4D4000000DFDFDFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFACACAC131313D9D9D9FFFFFFFFFFFF
+        FFFFFFFFFFFF5A5A5A505050EEEEEE020202848484FFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFF8989891E1E1EE7E7E7FFFFFFFFFFFFFFFFFFFF
+        FFFFA5A5A5202020FFFFFF424242171717F2F2F2FFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFF6666663E3E3EF8F8F8FFFFFFFFFFFFFFFFFFFFFFFFD5D5
+        D5000000ACACACFFFFFF000000232323CBCBCBFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFF4F4F4000000767676FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF858585
+        070707DEDEDEFFFFFF232323000000000000DBDBDBFFFFFFFFFFFFFFFFFF1717
+        17353535F1F1F1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE5E5E53E3E3E0D
+        0D0DC4C4C4FFFFFFCFCFCF898989FFFFFFFAFAFAC9C9C94B4B4B121212CCCCCC
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDFDFDF7575750000
+        003B3B3B878787A5A5A58A8A8A494949000000292929D7D7D7FFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC9C9C9787878
+        1C1C1C0000001010105B5B5BBDBDBDF6F6F6FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF}
+      ParentFont = False
+      Spacing = 10
+      TabOrder = 4
+      OnClick = BitBtn4Click
+    end
+    object BitBtn2: TBitBtn
+      AlignWithMargins = True
+      Left = 1167
+      Top = 24
+      Width = 120
+      Height = 41
+      Anchors = [akTop, akRight, akBottom]
+      Caption = 'Fechar'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      Glyph.Data = {
+        E6040000424DE604000000000000360000002800000014000000140000000100
+        180000000000B0040000C40E0000C40E00000000000000000000FFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFF8080808A8A8AFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFF7F7F7F000000000000818181FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7F7F7F0000000000
+        00000000000000878787FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFAAAAAA000000000000000000000000000000
+        0000006D6D6DDFDFDFD3D3D3D3D3D3D3D3D3D4D4D4FFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF00000000000000000000000000000000000000000000
+        0000000000000000000000000000000000595959FFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFF000000000000000000000000000000000000000000909090FFFF
+        FFFFFFFFFFFFFFFFFFFF848484202020FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFF000000000000000000000000000000000000000000848484FFFFFFFFFFFF
+        FFFFFFFFFFFF777777252525FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000
+        00000000000000000000000000000000000000838383FFFFFFFFFFFFFFFFFFFF
+        FFFF777777252525FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
+        000000000000000000000000000000838383FFFFFFFFFFFFFFFFFFFFFFFF7777
+        77242424FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000000000000000
+        0000000000000000000000838383FFFFFFFFFFFFFFFFFFFFFFFF6C6C6C151515
+        FFFFFF000000FBFBFBFFFFFFFFFFFFFFFFFF0000000000000000000000000000
+        00000000000000838383FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00
+        0000000000B4B4B4FFFFFFFFFFFF000000000000000000000000000000000000
+        000000838383FFFFFFFFFFFF2323233333333434343434343B3B3B0000000000
+        00000000585858FFFFFF00000000000000000000000000000000000000000083
+        8383FFFFFFFFFFFF000000000000000000000000000000000000000000000000
+        0000003E3E3E000000000000000000000000000000000000000000838383FFFF
+        FFFFFFFF202020313131313131323232383838000000000000000000555555FF
+        FFFF000000000000000000000000000000000000000000838383FFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000B1B1B1FFFFFFFFFFFF0000
+        000000000000000000000000000000000000007A7A7AFFFFFFFFFFFFFFFFFFFF
+        FFFF6B6B6B131313FFFFFF000000F9F9F9FFFFFFFFFFFFFFFFFF000000000000
+        000000000000000000000000282828E0E0E0FFFFFFFFFFFFFFFFFFFFFFFF7777
+        77242424FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000000000000000
+        0000323232E0E0E0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7B7B7B252525
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000090909A8A8A8F0F0
+        F0D8D8D8D0D0D0D0D0D0D0D0D0D0D0D0D0D0D0DCDCDC5F5F5F1F1F1FFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFF6C6C6C000000000000000000000000000000
+        000000000000000000000000000000000000000000A2A2A2FFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFF}
+      ParentFont = False
+      Spacing = 10
+      TabOrder = 5
+      OnClick = BitBtn2Click
+    end
+  end
+  object TabControl2: TTabControl
+    Left = 0
+    Top = 88
+    Width = 1350
+    Height = 642
+    Align = alClient
+    OwnerDraw = True
+    TabOrder = 2
+    object DBGrid3: TDBGrid
+      AlignWithMargins = True
+      Left = 7
+      Top = 432
+      Width = 1336
+      Height = 203
+      Align = alBottom
+      BiDiMode = bdRightToLeftNoAlign
+      DataSource = DataSource1
+      DrawingStyle = gdsGradient
+      FixedColor = clSkyBlue
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentBiDiMode = False
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -13
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = [fsBold]
+    end
+    object DBGrid4: TDBGrid
+      Left = 4
+      Top = 48
+      Width = 1342
+      Height = 381
+      Align = alBottom
+      Anchors = [akLeft, akTop, akRight]
+      BiDiMode = bdRightToLeftNoAlign
+      DataSource = DataSource2
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentBiDiMode = False
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 1
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -13
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = [fsBold]
+    end
+  end
+  object Timer1: TTimer
+    OnTimer = Timer1Timer
+    Left = 24
+    Top = 128
+  end
+  object DataSource1: TDataSource
+    DataSet = ADOQuery1
+    Left = 160
+    Top = 368
+  end
+  object ADOConnection1: TADOConnection
+    Connected = True
+    ConnectionString = 
+      'Provider=MSDAORA.1;Password=ninguemsabe;User ID=cnp;Data Source=' +
+      'bravos;Persist Security Info=True'
+    LoginPrompt = False
+    Provider = 'MSDAORA.1'
+    Left = 16
+    Top = 320
+  end
+  object ADOQuery1: TADOQuery
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    Parameters = <
+      item
+        Name = 'inicio'
+        DataType = ftDateTime
+        Size = -1
+        Value = Null
+      end
+      item
+        Name = 'fim'
+        DataType = ftDateTime
+        Size = -1
+        Value = Null
+      end
+      item
+        Name = 'inicio2'
+        DataType = ftDateTime
+        Size = -1
+        Value = Null
+      end
+      item
+        Name = 'fim2'
+        DataType = ftDateTime
+        Size = -1
+        Value = Null
+      end
+      item
+        Name = 'inicio3'
+        DataType = ftDateTime
+        Size = -1
+        Value = Null
+      end
+      item
+        Name = 'fim3'
+        DataType = ftDateTime
+        Size = -1
+        Value = Null
+      end>
+    Prepared = True
+    SQL.Strings = (
+      'Select COT.DES_ORIGEM_TRAFEGO, '
+      'sum(TMP1.NRO_REGISTROS) QTD_REGISTROS, '
+      
+        'sum((case when CCO.SITUACAO = '#39'F'#39' and CCO.RESULTADO = '#39'R'#39' then 1' +
+        ' else 0 end)) QTD_VENDAS '
+      'from CAC_ORIGEM_TRAFEGO COT, '
+      'FAT_VENDEDOR FVE, '
+      'CAC_CONTATO CCO '
+      'left outer join '
+      '(Select EMPRESA, REVENDA, CONTATO, count(CONTATO) NRO_REGISTROS '
+      'from CAC_CONTATO '
+      'where DTA_CONTATO between :inicio and :fim'
+      'and DEPARTAMENTO IN (100, 110)'
+      'group by EMPRESA, REVENDA, CONTATO) TMP1 '
+      'on TMP1.EMPRESA = CCO.EMPRESA '
+      'and TMP1.REVENDA = CCO.REVENDA '
+      'and TMP1.CONTATO = CCO.CONTATO '
+      'where ((CCO.DTA_CONTATO between :inicio2 and :fim2) '
+      'or (CCO.DTA_FECHAMENTO between  :inicio3 and :fim3)) '
+      'and ( (CCO.EMPRESA = 1 and CCO.REVENDA = 1)) '
+      'and CCO.ORIGEM = '#39'V'#39' '
+      'and COT.EMPRESA = CCO.EMPRESA '
+      'and COT.ORIGEM_TRAFEGO = CCO.ORIGEM_TRAFEGO '
+      'and FVE.EMPRESA = CCO.EMPRESA '
+      'and FVE.DEPARTAMENTO = CCO.DEPARTAMENTO '
+      'and FVE.REVENDA = CCO.REVENDA '
+      'and FVE.USUARIO = CCO.USUARIO_ENCAMINHADO '
+      'and FVE.FUNCAO = '#39'V'#39' '
+      'and CCO.DEPARTAMENTO IN (100, 110)'
+      'and not exists '
+      
+        '(select FMC.CONTATO from FAT_MOVIMENTO_CAPA FMC, FAT_TIPO_TRANSA' +
+        'CAO FTT '
+      'where FMC.EMPRESA = CCO.EMPRESA '
+      'and FMC.REVENDA = CCO.REVENDA '
+      'and FMC.CONTATO = CCO.CONTATO '
+      'and FMC.TIPO_TRANSACAO = FTT.TIPO_TRANSACAO '
+      'and FTT.SUBTIPO_TRANSACAO in ('#39'T'#39', '#39'S'#39', '#39'D'#39')) '
+      'group by COT.DES_ORIGEM_TRAFEGO '
+      'order by COT.DES_ORIGEM_TRAFEGO ')
+    Left = 88
+    Top = 368
+  end
+  object ADOQuery2: TADOQuery
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    Parameters = <
+      item
+        Name = 'inicio'
+        Size = -1
+        Value = Null
+      end
+      item
+        Name = 'fim'
+        Size = -1
+        Value = Null
+      end
+      item
+        Name = 'vendedor'
+        Value = Null
+      end>
+    Prepared = True
+    SQL.Strings = (
+      
+        'select CC.CONTATO as "Contato", CC.DTA_FECHAMENTO as "Data do fe' +
+        'chamento", CC.CLIENTE as "C'#243'digo Cliente", CLI.NOME as "Nome cli' +
+        'ente", PROP.PROPOSTA as "Proposta", PROP.VEICULO as "C'#243'digo do v' +
+        'e'#237'culo"'
+      
+        'from CAC_CONTATO CC, FAT_CLIENTE CLI,VEI_PROPOSTA PROP, FAT_VEND' +
+        'EDOR FVE, VEI_NEGOCIACAO NEG '
+      'where CC.EMPRESA = FVE.EMPRESA '
+      'and CC.REVENDA = FVE.REVENDA '
+      'and CC.USUARIO_ENCAMINHADO_ORIGINAL = FVE.USUARIO'
+      'and CC.EMPRESA = PROP.EMPRESA '
+      'and CC.REVENDA = PROP.REVENDA '
+      'and CC.CONTATO = PROP.CONTATO'
+      'and CC.CLIENTE = CLI.CLIENTE '
+      'and PROP.EMPRESA = NEG.EMPRESA '
+      'and PROP.REVENDA = NEG.REVENDA '
+      'and PROP.PROPOSTA = NEG.PROPOSTA '
+      'and PROP.NEGOCIACAO_FINAL = NEG.NEGOCIACAO '
+      'and PROP.SITUACAO in ('#39'7'#39','#39'9'#39') '
+      'and NEG.DTA_APR_GERENCIAL between :inicio and :fim'
+      
+        'and FVE.USUARIO in (select UU.USUARIO from GER_USUARIO UU where ' +
+        ' UU.GERENTE in (257, 343)) '
+      'and FVE.VENDEDOR = :vendedor'
+      'order by 2')
+    Left = 88
+    Top = 320
+  end
+  object DataSource2: TDataSource
+    DataSet = ADOQuery2
+    Left = 160
+    Top = 320
+  end
+  object DataSource3: TDataSource
+    DataSet = ADOQuery3
+    Left = 160
+    Top = 272
+  end
+  object ADOQuery3: TADOQuery
+    Active = True
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'SELECT OT.ORIGEM_TRAFEGO, OT.DES_ORIGEM_TRAFEGO '
+      'FROM CAC_ORIGEM_TRAFEGO OT, '
+      'CAC_ORIGEM_TRAFEGO_DEPT OTD, '
+      'GER_DEPARTAMENTO GD '
+      'WHERE OTD.EMPRESA = 1 '
+      'AND OTD.REVENDA = 1 '
+      'AND OTD.DEPARTAMENTO = 100 '
+      'AND OT.ORIGEM_TRAFEGO = OTD.ORIGEM_TRAFEGO '
+      'AND GD.EMPRESA = OTD.EMPRESA '
+      'AND GD.REVENDA = OTD.REVENDA '
+      'AND GD.DEPARTAMENTO = OTD.DEPARTAMENTO')
+    Left = 88
+    Top = 272
+    object ADOQuery3ORIGEM_TRAFEGO: TIntegerField
+      FieldName = 'ORIGEM_TRAFEGO'
+    end
+    object ADOQuery3DES_ORIGEM_TRAFEGO: TStringField
+      FieldName = 'DES_ORIGEM_TRAFEGO'
+      Size = 30
+    end
+  end
+end

@@ -1,0 +1,152 @@
+unit rel_2;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, DB, ADODB, StdCtrls, Mask, Grids, ComObj, DBGrids, ComCtrls,
+  Vcl.ExtCtrls, Vcl.Buttons;
+
+type
+  TForm3 = class(TForm)
+    DataSource1: TDataSource;
+    ADOConnection1: TADOConnection;
+    ADOQuery1: TADOQuery;
+    StatusBar1: TStatusBar;
+    Timer1: TTimer;
+    TabControl1: TTabControl;
+    Label2: TLabel;
+    Label1: TLabel;
+    DBGrid1: TDBGrid;
+    DateTimePicker1: TDateTimePicker;
+    DateTimePicker2: TDateTimePicker;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
+    procedure Button2Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure Btn1Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form3: TForm3;
+
+implementation
+
+uses rel_1;
+
+{$R *.dfm}
+
+procedure TForm3.Button2Click(Sender: TObject);
+Var
+linha, coluna: integer;
+planilha: variant;
+valorCampo: string;
+begin
+   planilha:= CreateOleObject('Excel.Application');
+   planilha.Workbooks.add(1);
+   planilha.Cells.Select;
+   planilha.Selection.NumberFormat := '@';
+   planilha.caption:= 'Exportação de dados para o excel';
+   planilha.visible:= true;
+   AdoQuery1.First;
+   for linha:= 0 to AdoQuery1.RecordCount-1 do
+   begin
+     for coluna:= 1 to AdoQuery1.FieldCount do
+      begin
+         valorCampo:= AdoQuery1.Fields[coluna-1].AsString;
+         planilha.cells[linha+2,coluna]:= valorCampo;
+      end;
+
+     AdoQuery1.Next;
+
+   end;
+   for coluna:=1 to AdoQuery1.FieldCount do
+   begin
+      valorCampo:= AdoQuery1.Fields[coluna-1].DisplayLabel;
+      planilha.cells[1,coluna]:= valorCampo;
+   end;
+   planilha.columns.AutoFit;
+end;
+
+
+procedure TForm3.FormCreate(Sender: TObject);
+begin
+  datetimepicker1.date:= now;
+  datetimepicker2.date:= now;
+end;
+
+procedure TForm3.Timer1Timer(Sender: TObject);
+begin
+ Statusbar1.Panels [0].Text := ' '+datetostr(date);// para data
+ statusbar1.Panels [1].Text := ' '+timetostr(now);//para hora
+end;
+
+procedure TForm3.Button1Click(Sender: TObject);
+begin
+  DBGrid1.DataSource.DataSet.Close;
+end;
+
+procedure TForm3.BitBtn1Click(Sender: TObject);
+begin
+  DBGrid1.DataSource.DataSet.Close;
+end;
+
+procedure TForm3.BitBtn2Click(Sender: TObject);
+begin
+  Form3.ADOQuery1.Close;
+  Form3.ADOQuery1.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker1.Date);
+  Form3.ADOQuery1.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker2.Date);
+  Form3.ADOQuery1.Open;
+end;
+
+procedure TForm3.BitBtn3Click(Sender: TObject);
+Var
+linha, coluna: integer;
+planilha: variant;
+valorCampo: string;
+begin
+   planilha:= CreateOleObject('Excel.Application');
+   planilha.Workbooks.add(1);
+   planilha.Cells.Select;
+   planilha.Selection.NumberFormat := '@';
+   planilha.caption:= 'Exportação de dados para o excel';
+   planilha.visible:= true;
+   AdoQuery1.First;
+   for linha:= 0 to AdoQuery1.RecordCount-1 do
+   begin
+     for coluna:= 1 to AdoQuery1.FieldCount do
+      begin
+         valorCampo:= AdoQuery1.Fields[coluna-1].AsString;
+         planilha.cells[linha+2,coluna]:= valorCampo;
+      end;
+
+     AdoQuery1.Next;
+
+   end;
+   for coluna:=1 to AdoQuery1.FieldCount do
+   begin
+      valorCampo:= AdoQuery1.Fields[coluna-1].DisplayLabel;
+      planilha.cells[1,coluna]:= valorCampo;
+   end;
+   planilha.columns.AutoFit;
+end;
+
+procedure TForm3.Btn1Click(Sender: TObject);
+begin
+  Form3.ADOQuery1.Close;
+  Form3.ADOQuery1.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker1.Date);
+  Form3.ADOQuery1.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker2.Date);
+  Form3.ADOQuery1.Open;
+end;
+
+end.

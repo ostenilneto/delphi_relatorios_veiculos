@@ -2138,7 +2138,6 @@ object Form1: TForm1
     Align = alClient
     OwnerDraw = True
     TabOrder = 0
-    ExplicitHeight = 710
     object Label2: TLabel
       Left = 27
       Top = 23

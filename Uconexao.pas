@@ -1,5 +1,17 @@
 unit Uconexao;
 
+//  rel_1,  Administração -> Amaro
+//  rel_2,  Administração -> NF Difal
+//  rel_3,  Veículos -> Faturamento
+//  rel_4,  Veículos -> Vendas Perdidas
+//  rel_5,  Veículos -> Leads
+//  rel_6,  Veículos -> Fluxo de Loja(Atendimentos)
+//  rel_7,  Veículos -> Estatísticas
+//  rel_8,  Veículos -> Ações CRM
+//  rel_9,  Administração -> ICMS ST
+//  rel_10, Teste
+//  rel_11; Veículos -> Dashboard
+
 interface
 
 //Aqui iremos instanciar a biblioteca ADODB.

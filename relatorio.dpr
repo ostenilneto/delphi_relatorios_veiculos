@@ -13,7 +13,8 @@ uses
   rel_7 in 'rel_7.pas' {Form8},
   rel_8 in 'rel_8.pas' {Form9},
   rel_9 in 'rel_9.pas' {Form10},
-  rel_10 in 'rel_10.pas' {Form11};
+  rel_10 in 'rel_10.pas' {Form11},
+  rel_11 in 'rel_11.pas' {Form12};
 
 {$R *.res}
 
@@ -30,5 +31,6 @@ begin
   Application.CreateForm(TForm9, Form9);
   Application.CreateForm(TForm10, Form10);
   Application.CreateForm(TForm11, Form11);
+  Application.CreateForm(TForm12, Form12);
   Application.Run;
 end.

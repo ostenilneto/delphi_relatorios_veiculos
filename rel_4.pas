@@ -24,8 +24,6 @@ type
     DataSource2: TDataSource;
     DataSource3: TDataSource;
     ADOQuery3: TADOQuery;
-    ComboBox1: TComboBox;
-    DBLookupComboBox1: TDBLookupComboBox;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -35,6 +33,8 @@ type
     ADOQuery3USUARIO: TIntegerField;
     ADOQuery3NOME: TStringField;
     ADOQuery4: TADOQuery;
+    ComboBox1: TComboBox;
+    DBLookupComboBox1: TDBLookupComboBox;
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -42,6 +42,10 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
+    procedure DBGrid3DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DBGrid4DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
 
   private
     { Private declarations }
@@ -65,20 +69,20 @@ end;
 
 procedure TForm5.FormShow(Sender: TObject);
 begin
-  Form5.ADOQuery1.Close;
+  Form5.ADOQuery3.Close;
   datetimepicker3.date:= StartOfTheMonth(now);;
   datetimepicker4.date:= now;
+  Form5.ADOQuery3.Parameters.ParamByName('cargo').Value := 6;
+  Form5.ADOQuery3.Open;
   Form5.DataSource1.DataSet := ADOQuery1;
-  Form5.ADOQuery1.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
-  Form5.ADOQuery1.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
+  Form5.DBLookupComboBox1.KeyValue:= 468;
+  Form5.ADOQuery1.Close;
+  Form5.ADOQuery1.Parameters.ParamByName('inicio').Value := DatetoStr(Form5.DateTimePicker3.Date);
+  Form5.ADOQuery1.Parameters.ParamByName('fim').Value := DatetoStr(Form5.DateTimePicker4.Date);
+  Form5.ComboBox1.ItemIndex := 0;
   Form5.ADOQuery1.Open;
   DimensionarGrid( DBGrid3 );
   DimensionarGrid( DBGrid4 );
-  Form5.ADOQuery3.Close;
-  Form5.ADOQuery3.Parameters.ParamByName('cargo').Value := 6;
-  Form5.ADOQuery3.Open;
-  DBLookupComboBox1.KeyValue:= 468;
-  ComboBox1.ItemIndex := 0;
 end;
 
 procedure TForm5.BitBtn1Click(Sender: TObject);
@@ -120,29 +124,84 @@ begin
   if ComboBox1.ItemIndex = 0
         then begin
 
+        Form5.ADOQuery1.Close;
         Form5.ADOQuery2.Close;
         Form5.ADOQuery3.Close;
-        Form5.DataSource1.DataSet := ADOQuery1;
-        Form5.ADOQuery1.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
-        Form5.ADOQuery1.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
-        Form5.ADOQuery1.Open;
         Form5.ADOQuery3.Parameters.ParamByName('cargo').Value := 6;
-        Form5.DBLookupComboBox1.KeyValue:= 468;
         Form5.ADOQuery3.Open;
+        Form5.DataSource1.DataSet := ADOQuery1;
+        Form5.DBLookupComboBox1.KeyValue:= 468;
+        Form5.ADOQuery1.Parameters.ParamByName('inicio').Value := DatetoStr(Form5.DateTimePicker3.Date);
+        Form5.ADOQuery1.Parameters.ParamByName('fim').Value := DatetoStr(Form5.DateTimePicker4.Date);
+        Form5.ADOQuery1.Open;
+        DimensionarGrid( DBGrid3 );
+        DimensionarGrid( DBGrid4 );
     end
     else begin
+
+        Form5.ADOQuery1.Close;
         Form5.ADOQuery2.Close;
         Form5.ADOQuery3.Close;
         Form5.DataSource1.DataSet := ADOQuery4;
         Form5.ADOQuery4.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
         Form5.ADOQuery4.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
-        Form5.ADOQuery4.Open;
         Form5.ADOQuery3.Parameters.ParamByName('cargo').Value := 7;
         Form5.DBLookupComboBox1.KeyValue:= 521;
+        Form5.ADOQuery4.Open;
         Form5.ADOQuery3.Open;
     end;
     DimensionarGrid( DBGrid3 );
 
+end;
+
+procedure TForm5.DBGrid3DrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  grid: TDBGrid;
+  linha: Integer;
+begin
+  // obtém um referência ao DBGrid
+  grid := sender as TDBGrid;
+
+  // obtém o número da linha atual usando a propriedade
+  // RecNo da classe TDataSet
+  linha := grid.DataSource.DataSet.RecNo;
+
+  // o número da linha é par?
+  if Odd(linha) then
+    begin
+      grid.Canvas.Brush.Color := $00D8F5DC;
+      grid.Canvas.Font.Color := clBlack
+    end
+  else
+    begin
+      grid.Canvas.Brush.Color := clSilver;
+      grid.Canvas.Font.Color := clBlack
+    end;
+
+  if DataCol=1 then
+  Begin
+    TDBGrid(Sender).Canvas.Brush.Color := clRed;
+    TDBGrid(Sender).Canvas.Font.Color := clWhite;
+  End;
+
+
+  // vamos terminar de desenhar a célula
+  grid.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+
+  if (TStringGrid(DBGrid3).RowCount-1) < 10 then //Se tiver menos de 10 linhas
+    ShowScrollBar(DBGrid3.Handle,SB_HORZ,False); //Remove barra Vertical
+    ShowScrollBar(DBGrid3.Handle,SB_VERT,False); //Remove barra Vertical
+
+
+end;
+
+procedure TForm5.DBGrid4DrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  if (TStringGrid(DBGrid4).RowCount-1) < 10 then //Se tiver menos de 10 linhas
+    ShowScrollBar(DBGrid4.Handle,SB_HORZ,False); //Remove barra Vertical
+    ShowScrollBar(DBGrid4.Handle,SB_VERT,False); //Remove barra Vertical
 end;
 
 procedure TForm5.DimensionarGrid(dbg: TDBGrid);

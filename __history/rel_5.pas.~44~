@@ -1,0 +1,180 @@
+unit rel_5;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, DB, ADODB, StdCtrls, Mask, Grids, ComObj, DBGrids, ComCtrls,
+  Vcl.ExtCtrls, DateUtils, Vcl.Buttons, Vcl.DBCtrls, Datasnap.DBClient, SimpleDS,
+  Data.SqlExpr, Data.FMTBcd, Datasnap.Provider;
+
+type
+  TForm6 = class(TForm)
+    StatusBar1: TStatusBar;
+    Timer1: TTimer;
+    Panel1: TPanel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label1: TLabel;
+    DateTimePicker3: TDateTimePicker;
+    DateTimePicker4: TDateTimePicker;
+    DBLookupComboBox1: TDBLookupComboBox;
+    BitBtn1: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn2: TBitBtn;
+    TabControl2: TTabControl;
+    DBGrid3: TDBGrid;
+    DBGrid4: TDBGrid;
+    DataSource1: TDataSource;
+    ADOConnection1: TADOConnection;
+    ADOQuery1: TADOQuery;
+    ADOQuery2: TADOQuery;
+    DataSource2: TDataSource;
+    DataSource3: TDataSource;
+    ADOQuery3: TADOQuery;
+    ADOQuery3ORIGEM_TRAFEGO: TIntegerField;
+    ADOQuery3DES_ORIGEM_TRAFEGO: TStringField;
+    procedure Timer1Timer(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure DimensionarGrid(dbg: TDBGrid);
+    procedure FormResize(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form6: TForm6;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm6.FormCreate(Sender: TObject);
+begin
+  datetimepicker3.date:= StartOfTheMonth(now);
+  datetimepicker4.date:= now;
+end;
+
+procedure TForm6.FormResize(Sender: TObject);
+begin
+  DimensionarGrid( DBGrid3 );
+  DimensionarGrid( DBGrid4 );
+end;
+
+procedure TForm6.FormShow(Sender: TObject);
+begin
+  Form6.ADOQuery1.Close;
+  Form6.ADOQuery1.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
+  Form6.ADOQuery1.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
+  Form6.ADOQuery1.Parameters.ParamByName('inicio2').Value := DatetoStr(DateTimePicker3.Date);
+  Form6.ADOQuery1.Parameters.ParamByName('fim2').Value := DatetoStr(DateTimePicker4.Date);
+  Form6.ADOQuery1.Parameters.ParamByName('inicio3').Value := DatetoStr(DateTimePicker3.Date);
+  Form6.ADOQuery1.Parameters.ParamByName('fim3').Value := DatetoStr(DateTimePicker4.Date);
+  Form6.ADOQuery1.Open;
+  DBLookupComboBox1.KeyValue:= 14;
+end;
+
+procedure TForm6.Timer1Timer(Sender: TObject);
+begin
+  Statusbar1.Panels [0].Text := ' '+datetostr(date);// para data
+  statusbar1.Panels [1].Text := ' '+timetostr(now);//para hora
+
+end;
+
+procedure TForm6.BitBtn1Click(Sender: TObject);
+begin
+  DBGrid3.DataSource.DataSet.Close;
+  DBGrid4.DataSource.DataSet.Close;
+end;
+
+procedure TForm6.BitBtn2Click(Sender: TObject);
+begin
+  Form6.Close;
+end;
+
+procedure TForm6.BitBtn4Click(Sender: TObject);
+begin
+  DBGrid3.DataSource.DataSet.Close;
+  Form6.ADOQuery1.Close;
+  Form6.ADOQuery1.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
+  Form6.ADOQuery1.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.Date);
+  Form6.ADOQuery1.Parameters.ParamByName('inicio2').Value := DatetoStr(DateTimePicker3.Date);
+  Form6.ADOQuery1.Parameters.ParamByName('fim2').Value := DatetoStr(DateTimePicker4.Date);
+  Form6.ADOQuery1.Parameters.ParamByName('inicio3').Value := DatetoStr(DateTimePicker3.Date);
+  Form6.ADOQuery1.Parameters.ParamByName('fim3').Value := DatetoStr(DateTimePicker4.Date);
+  Form6.ADOQuery1.Open;
+  DimensionarGrid( DBGrid3 );
+  Form6.ADOQuery2.Close;
+  Form6.ADOQuery2.Parameters.ParamByName('inicio').Value := DateTimetoStr(DateTimePicker3.Date);
+  Form6.ADOQuery2.Parameters.ParamByName('fim').Value := DateTimetoStr(DateTimePicker4.Date);
+  Form6.ADOQuery2.Parameters.ParamByName('inicio2').Value := DateTimetoStr(DateTimePicker3.Date);
+  Form6.ADOQuery2.Parameters.ParamByName('fim2').Value := DateTimetoStr(DateTimePicker4.Date);
+  Form6.ADOQuery2.Parameters.ParamByName('origem').Value := DBLookupComboBox1.KeyValue;
+  Form6.ADOQuery2.Open;
+  DimensionarGrid( DBGrid4 );
+
+end;
+
+procedure TForm6.DimensionarGrid(dbg: TDBGrid);
+type
+  TArray = Array of Integer;
+  procedure AjustarColumns(Swidth, TSize: Integer; Asize: TArray);
+  var
+    idx: Integer;
+  begin
+    if TSize = 0 then
+    begin
+      TSize := dbg.Columns.count;
+      for idx := 0 to dbg.Columns.count - 1 do
+        dbg.Columns[idx].Width := (dbg.Width - dbg.Canvas.TextWidth('AAAAAA')
+          ) div TSize
+    end
+    else
+      for idx := 0 to dbg.Columns.count - 1 do
+        dbg.Columns[idx].Width := dbg.Columns[idx].Width +
+          (Swidth * Asize[idx] div TSize);
+  end;
+
+var
+  idx, Twidth, TSize, Swidth: Integer;
+  AWidth: TArray;
+  Asize: TArray;
+  NomeColuna: String;
+begin
+  SetLength(AWidth, dbg.Columns.count);
+  SetLength(Asize, dbg.Columns.count);
+  Twidth := 0;
+  TSize := 0;
+  for idx := 0 to dbg.Columns.count - 1 do
+  begin
+    NomeColuna := dbg.Columns[idx].Title.Caption;
+    dbg.Columns[idx].Width := dbg.Canvas.TextWidth
+      (dbg.Columns[idx].Title.Caption + 'A');
+    AWidth[idx] := dbg.Columns[idx].Width;
+    Twidth := Twidth + AWidth[idx];
+
+    if Assigned(dbg.Columns[idx].Field) then
+      Asize[idx] := dbg.Columns[idx].Field.Size
+    else
+      Asize[idx] := 1;
+
+    TSize := TSize + Asize[idx];
+  end;
+  if TDBGridOption.dgColLines in dbg.Options then
+    Twidth := Twidth + dbg.Columns.count;
+
+  // adiciona a largura da coluna indicada do cursor
+  if TDBGridOption.dgIndicator in dbg.Options then
+    Twidth := Twidth + IndicatorWidth;
+
+  Swidth := dbg.ClientWidth - Twidth;
+  AjustarColumns(Swidth, TSize, Asize);
+end;
+
+end.

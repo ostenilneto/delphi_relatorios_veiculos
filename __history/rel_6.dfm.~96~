@@ -2461,7 +2461,6 @@ object Form7: TForm7
     Align = alClient
     OwnerDraw = True
     TabOrder = 1
-    ExplicitHeight = 622
     object DBGrid1: TDBGrid
       AlignWithMargins = True
       Left = 7
@@ -2537,9 +2536,6 @@ object Form7: TForm7
       'select To_Char(cc.dta_contato, '#39'dd/mm/yyyy'#39') DATA,'
       'sum((case when FVE.USUARIO = 468 then 1 else 0 end)) "Alline",'
       'sum((case when FVE.USUARIO = 232 then 1 else 0 end)) "Altamiro",'
-      
-        'sum((case when FVE.USUARIO = 501 then 1 else 0 end)) "Ana Karla"' +
-        ','
       'sum((case when FVE.USUARIO = 343 then 1 else 0 end)) "Denis",'
       
         'sum((case when FVE.USUARIO = 118 then 1 else 0 end)) "Guilherme"' +

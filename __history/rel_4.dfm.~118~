@@ -2461,7 +2461,6 @@ object Form5: TForm5
     Align = alClient
     OwnerDraw = True
     TabOrder = 1
-    ExplicitHeight = 622
     object DBGrid3: TDBGrid
       AlignWithMargins = True
       Left = 7
@@ -2548,7 +2547,6 @@ object Form5: TForm5
       'select GMO.DES_MOTIVO "MOTIVO",'
       'sum((case when FV.USUARIO = 468 then 1 else 0 end)) "ALLINE",'
       'sum((case when FV.USUARIO = 232 then 1 else 0 end)) "ALTAMIRO",'
-      'sum((case when FV.USUARIO = 501 then 1 else 0 end)) "ANA KARLA",'
       'sum((case when FV.USUARIO = 343 then 1 else 0 end)) "DENIS",'
       'sum((case when FV.USUARIO = 118 then 1 else 0 end)) "GUILHERME",'
       'sum((case when FV.USUARIO = 595 then 1 else 0 end)) "J'#201'SSICA",'

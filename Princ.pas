@@ -12,13 +12,6 @@ type
     Panel12: TPanel;
     SpeedButton3: TSpeedButton;
     StatusBar1: TStatusBar;
-    Panel13: TPanel;
-    SpeedButton5: TSpeedButton;
-    SpeedButton6: TSpeedButton;
-    SpeedButton7: TSpeedButton;
-    SpeedButton8: TSpeedButton;
-    SpeedButton9: TSpeedButton;
-    SpeedButton10: TSpeedButton;
     Panel14: TPanel;
     SpeedButton11: TSpeedButton;
     SpeedButton12: TSpeedButton;
@@ -31,6 +24,14 @@ type
     SpeedButton14: TSpeedButton;
     SpeedButton1: TSpeedButton;
     SpeedButton15: TSpeedButton;
+    Panel13: TPanel;
+    SpeedButton5: TSpeedButton;
+    SpeedButton6: TSpeedButton;
+    SpeedButton7: TSpeedButton;
+    SpeedButton8: TSpeedButton;
+    SpeedButton9: TSpeedButton;
+    SpeedButton10: TSpeedButton;
+    SpeedButton16: TSpeedButton;
     procedure Timer1Timer(Sender: TObject);
     procedure SpeedButton3Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -54,6 +55,15 @@ type
     procedure SpeedButton1MouseEnter(Sender: TObject);
     procedure SpeedButton4Click(Sender: TObject);
     procedure SpeedButton15Click(Sender: TObject);
+    procedure SpeedButton16Click(Sender: TObject);
+    procedure SpeedButton15MouseEnter(Sender: TObject);
+    procedure Panel12MouseEnter(Sender: TObject);
+    procedure Panel12MouseLeave(Sender: TObject);
+    procedure Panel13MouseEnter(Sender: TObject);
+    procedure Panel14MouseEnter(Sender: TObject);
+    procedure SpeedButton1MouseLeave(Sender: TObject);
+    procedure SpeedButton14MouseLeave(Sender: TObject);
+    procedure SpeedButton15MouseLeave(Sender: TObject);
   private
     { Private declarations }
   public
@@ -66,7 +76,17 @@ var
 
 implementation
 
-uses rel_1, rel_2, rel_3, rel_4, rel_5, rel_6, rel_7, rel_8, rel_9, rel_10;
+uses  rel_1,  // Administração -> Amaro
+      rel_2,  // Administração -> NF Difal
+      rel_3,  // Veículos -> Faturamento
+      rel_4,  // Veículos -> Vendas Perdidas
+      rel_5,  // Veículos -> Leads
+      rel_6,  // Veículos -> Fluxo de Loja(Atendimentos)
+      rel_7,  // Veículos -> Estatísticas
+      rel_8,  // Veículos -> Ações CRM
+      rel_9,  // Administração -> ICMS ST
+      rel_10,  // Teste
+      rel_11;  // Veículos -> Dashboard
 
 {$R *.dfm}
 
@@ -79,6 +99,28 @@ end;
 procedure TForm2.FormShow(Sender: TObject);
 begin
     Panel12.Width := 150;
+end;
+
+procedure TForm2.Panel12MouseEnter(Sender: TObject);
+begin
+  Panel12.Width := 150;
+end;
+
+procedure TForm2.Panel12MouseLeave(Sender: TObject);
+begin
+  Form2.Panel12.Width := 48;
+  Panel13.Visible := False;
+  Panel14.Visible := False;
+end;
+
+procedure TForm2.Panel13MouseEnter(Sender: TObject);
+begin
+  Panel12.Width := 150;
+end;
+
+procedure TForm2.Panel14MouseEnter(Sender: TObject);
+begin
+  Panel12.Width := 150;
 end;
 
 procedure TForm2.SpeedButton10Click(Sender: TObject);
@@ -94,6 +136,7 @@ begin
   FreeAndNil(Form9);
   FreeAndNil(Form10);
   FreeAndNil(Form11);
+  FreeAndNil(Form12);
   Form6 := TForm6.Create(Self);
   Form6.Parent := Panel15;
   Form6.Align := alClient;
@@ -119,6 +162,7 @@ begin
   FreeAndNil(Form9);
   FreeAndNil(Form10);
   FreeAndNil(Form11);
+  FreeAndNil(Form12);
   Form1 := TForm1.Create(Self);
   Form1.Parent := Panel15;
   Form1.Align := alClient;
@@ -144,6 +188,7 @@ begin
   FreeAndNil(Form9);
   FreeAndNil(Form10);
   FreeAndNil(Form11);
+  FreeAndNil(Form12);
   Form3 := TForm3.Create(Self);
   Form3.Parent := Panel15;
   Form3.Align := alClient;
@@ -169,6 +214,7 @@ begin
   FreeAndNil(Form9);
   FreeAndNil(Form10);
   FreeAndNil(Form11);
+  FreeAndNil(Form12);
   Form10 := TForm10.Create(Self);
   Form10.Parent := Panel15;
   Form10.Align := alClient;
@@ -203,22 +249,100 @@ begin
   //Form11.BorderStyle := bsNone;
   //Form11.Show;
   //Form2.Caption := 'NF DIFAL';
-  //Form2.Panel13.Visible := False;
-  //Form2.Panel14.Visible := False;
+  Form2.Panel13.Visible := False;
+  Form2.Panel14.Visible := False;
   //Form2.Panel12.Width := 48;
   //Screen.Cursor := crDefault;
 end;
 
 procedure TForm2.SpeedButton14MouseEnter(Sender: TObject);
 begin
+  Screen.Cursor := crHourglass;
+  SpeedButton14.Down := True;
   Form2.Panel13.Visible := False;
   Form2.Panel14.Visible := False;
+  begin
+    if Form2.Panel12.Width = 150 then
+    begin
+
+    end
+    else
+    Form2.Panel12.Width := 150;
+  end;
+  Screen.Cursor := crDefault;
+end;
+
+procedure TForm2.SpeedButton14MouseLeave(Sender: TObject);
+begin
+    if (Form2.Panel12.Width = 150) or (SpeedButton1.Down = True) then
+    begin
+
+    end;
+    if (SpeedButton1.Down = False) and (Form2.Panel12.Width = 150) then
+    begin
+    Form2.Panel12.Width := 48;
+    end;
+
 end;
 
 procedure TForm2.SpeedButton15Click(Sender: TObject);
 begin
   SpeedButton15.Down := True;
   Application.MessageBox('Em Desenvolvimento!','AVISO', MB_OK+MB_ICONINFORMATION);
+end;
+
+procedure TForm2.SpeedButton15MouseEnter(Sender: TObject);
+begin
+  Screen.Cursor := crHourglass;
+  Form2.Panel13.Visible := False;
+  Form2.Panel14.Visible := False;
+  begin
+    if Form2.Panel12.Width = 150 then
+    begin
+
+    end
+    else
+    Form2.Panel12.Width := 150;
+  end;
+  Screen.Cursor := crDefault;
+end;
+
+procedure TForm2.SpeedButton15MouseLeave(Sender: TObject);
+begin
+Screen.Cursor := crHourglass;
+  begin
+  if Form2.Panel12.Width = 48 then
+  else
+    Form2.Panel12.Width := 48;
+  end;
+end;
+
+procedure TForm2.SpeedButton16Click(Sender: TObject);
+begin
+  Screen.Cursor := crHourglass;
+  FreeAndNil(Form1);
+  FreeAndNil(Form3);
+  FreeAndNil(Form4);
+  FreeAndNil(Form5);
+  FreeAndNil(Form6);
+  FreeAndNil(Form7);
+  FreeAndNil(Form8);
+  FreeAndNil(Form9);
+  FreeAndNil(Form10);
+  FreeAndNil(Form11);
+  FreeAndNil(Form12);
+  Form12 := TForm12.Create(Self);
+  Form12.Parent := Panel15;
+  Form12.Align := alClient;
+  Form12.BorderStyle := bsNone;
+  Form12.Show;
+  Form2.Caption := 'Painel de venda - Veículos(Atualizado automaticamente)';
+  Form2.Panel13.Visible := False;
+  Form2.Panel14.Visible := False;
+  Form2.Panel12.Width := 48;
+  Screen.Cursor := crDefault;
+  Form12.Timer1.Enabled := True;
+  //Application.MessageBox('Em Desenvolvimento!','AVISO', MB_OK+MB_ICONINFORMATION);
 end;
 
 procedure TForm2.SpeedButton1Click(Sender: TObject);
@@ -228,8 +352,37 @@ end;
 
 procedure TForm2.SpeedButton1MouseEnter(Sender: TObject);
 begin
+  Screen.Cursor := crHourglass;
+  SpeedButton1.Down := True;
   Form2.Panel13.Visible := False;
   Form2.Panel14.Visible := False;
+  begin
+    if Form2.Panel12.Width = 150 then
+    begin
+
+    end
+    else
+    Form2.Panel12.Width := 150;
+  end;
+  Screen.Cursor := crDefault;
+end;
+
+procedure TForm2.SpeedButton1MouseLeave(Sender: TObject);
+begin
+  begin
+  if Form2.Panel12.Width = 150 then
+  begin
+
+  end;
+  if SpeedButton14.Down = True then
+  begin
+
+  end;
+  if (SpeedButton14.Down = False) and (Form2.Panel12.Width = 150) then
+  begin
+    Form2.Panel12.Width := 48;
+  end;
+  end;
 end;
 
 procedure TForm2.SpeedButton2Click(Sender: TObject);
@@ -319,6 +472,7 @@ begin
   FreeAndNil(Form9);
   FreeAndNil(Form10);
   FreeAndNil(Form11);
+  FreeAndNil(Form12);
   Form4 := TForm4.Create(Self);
   Form4.Parent := Panel15;
   Form4.Align := alClient;
@@ -344,6 +498,7 @@ begin
   FreeAndNil(Form9);
   FreeAndNil(Form10);
   FreeAndNil(Form11);
+  FreeAndNil(Form12);
   Form7 := TForm7.Create(Self);
   Form7.Parent := Panel15;
   Form7.Align := alClient;
@@ -369,6 +524,7 @@ begin
   FreeAndNil(Form9);
   FreeAndNil(Form10);
   FreeAndNil(Form11);
+  FreeAndNil(Form12);
   Form8 := TForm8.Create(Self);
   Form8.Parent := Panel15;
   Form8.Align := alClient;
@@ -394,6 +550,7 @@ begin
   FreeAndNil(Form9);
   FreeAndNil(Form10);
   FreeAndNil(Form11);
+  FreeAndNil(Form12);
   Form9 := TForm9.Create(Self);
   Form9.Parent := Panel15;
   Form9.Align := alClient;
@@ -419,6 +576,7 @@ begin
   FreeAndNil(Form9);
   FreeAndNil(Form10);
   FreeAndNil(Form11);
+  FreeAndNil(Form12);
   Form5 := TForm5.Create(Self);
   Form5.Parent := Panel15;
   Form5.Align := alClient;

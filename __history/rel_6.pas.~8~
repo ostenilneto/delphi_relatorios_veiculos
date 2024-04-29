@@ -1,0 +1,194 @@
+unit rel_6;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.ExtCtrls,
+  Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, DateUtils, Vcl.StdCtrls, Vcl.Buttons, Vcl.DBCtrls;
+
+type
+  TForm7 = class(TForm)
+    StatusBar1: TStatusBar;
+    Panel1: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn2: TBitBtn;
+    TabControl2: TTabControl;
+    DBGrid3: TDBGrid;
+    DBGrid4: TDBGrid;
+    Timer1: TTimer;
+    DataSource1: TDataSource;
+    ADOConnection1: TADOConnection;
+    ADOQuery1: TADOQuery;
+    ADOQuery2: TADOQuery;
+    DataSource2: TDataSource;
+    DataSource3: TDataSource;
+    ADOQuery3: TADOQuery;
+    ADOQuery3ORIGEM_TRAFEGO: TIntegerField;
+    ADOQuery3DES_ORIGEM_TRAFEGO: TStringField;
+    Label1: TLabel;
+    DBLookupComboBox1: TDBLookupComboBox;
+    ComboBox1: TComboBox;
+    Label2: TLabel;
+    DateTimePicker3: TDateTimePicker;
+    DateTimePicker4: TDateTimePicker;
+    Label4: TLabel;
+    Label3: TLabel;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormResize(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure DimensionarGrid(dbg: TDBGrid);
+    procedure ComboBox1Change(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form7: TForm7;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm7.BitBtn1Click(Sender: TObject);
+begin
+  DBGrid3.DataSource.DataSet.Close;
+  DBGrid4.DataSource.DataSet.Close;
+end;
+
+procedure TForm7.BitBtn2Click(Sender: TObject);
+begin
+  Form7.Close;
+end;
+
+procedure TForm7.ComboBox1Change(Sender: TObject);
+begin
+  if ComboBox1.ItemIndex = 0
+        then begin
+        Form5.ADOQuery1.Close;
+        Form5.ADOQuery2.Close;
+        Form5.ADOQuery3.Close;
+        // Form5.ADOQuery1.Parameters.ParamByName('gerente1').Value := 257;
+        // Form5.ADOQuery1.Parameters.ParamByName('gerente2').Value := 343;
+        Form5.ADOQuery3.Parameters.ParamByName('gerente1').Value := 257;
+        Form5.ADOQuery3.Parameters.ParamByName('gerente2').Value := 343;
+        // Form5.ADOQuery1.Open;
+        Form5.ADOQuery3.Open;
+        Form5.ADOQuery1.Open;
+        DBLookupComboBox1.KeyValue:= 468;
+    end
+    else begin
+        Form5.ADOQuery1.Close;
+        Form5.ADOQuery2.Close;
+        Form5.ADOQuery3.Close;
+        // Form5.ADOQuery1.Parameters.ParamByName('gerente1').Value := 268;
+        // Form5.ADOQuery1.Parameters.ParamByName('gerente2').Value := 0;
+        Form5.ADOQuery3.Parameters.ParamByName('gerente1').Value := 268;
+        Form5.ADOQuery3.Parameters.ParamByName('gerente2').Value := 0;
+        // Form5.ADOQuery1.Open;
+        Form5.ADOQuery3.Open;
+        Form5.ADOQuery1.Open;
+        DBLookupComboBox1.KeyValue:= 521;
+    end;
+    DimensionarGrid( DBGrid3 );
+end;
+
+procedure TForm7.FormCreate(Sender: TObject);
+begin
+  datetimepicker3.date:= StartOfTheMonth(now);;
+  datetimepicker4.date:= now;
+end;
+
+procedure TForm7.FormResize(Sender: TObject);
+begin
+  DimensionarGrid( DBGrid3 );
+  DimensionarGrid( DBGrid4 );
+end;
+
+procedure TForm7.FormShow(Sender: TObject);
+begin
+  Form7.ADOQuery1.Close;
+  Form7.ADOQuery1.Parameters.ParamByName('inicio').Value := DatetoStr(DateTimePicker3.Date);
+  Form7.ADOQuery1.Parameters.ParamByName('fim').Value := DatetoStr(DateTimePicker4.DateTime);
+
+  Form7.ADOQuery1.Open;
+  DimensionarGrid( DBGrid3 );
+  DimensionarGrid( DBGrid4 );
+  Form7.ADOQuery3.Close;
+  Form7.ADOQuery3.Parameters.ParamByName('gerente1').Value := 257;
+  Form7.ADOQuery3.Parameters.ParamByName('gerente2').Value := 343;
+  Form7.ADOQuery3.Open;
+  DBLookupComboBox1.KeyValue:= 468;
+  ComboBox1.ItemIndex := 0;
+end;
+
+procedure TForm7.Timer1Timer(Sender: TObject);
+begin
+  Statusbar1.Panels [0].Text := ' '+datetostr(date);// para data
+  statusbar1.Panels [1].Text := ' '+timetostr(now);//para hora
+end;
+
+procedure TForm7.DimensionarGrid(dbg: TDBGrid);
+type
+  TArray = Array of Integer;
+  procedure AjustarColumns(Swidth, TSize: Integer; Asize: TArray);
+  var
+    idx: Integer;
+  begin
+    if TSize = 0 then
+    begin
+      TSize := dbg.Columns.count;
+      for idx := 0 to dbg.Columns.count - 1 do
+        dbg.Columns[idx].Width := (dbg.Width - dbg.Canvas.TextWidth('AAAAAA')
+          ) div TSize
+    end
+    else
+      for idx := 0 to dbg.Columns.count - 1 do
+        dbg.Columns[idx].Width := dbg.Columns[idx].Width +
+          (Swidth * Asize[idx] div TSize);
+  end;
+
+var
+  idx, Twidth, TSize, Swidth: Integer;
+  AWidth: TArray;
+  Asize: TArray;
+  NomeColuna: String;
+begin
+  SetLength(AWidth, dbg.Columns.count);
+  SetLength(Asize, dbg.Columns.count);
+  Twidth := 0;
+  TSize := 0;
+  for idx := 0 to dbg.Columns.count - 1 do
+  begin
+    NomeColuna := dbg.Columns[idx].Title.Caption;
+    dbg.Columns[idx].Width := dbg.Canvas.TextWidth
+      (dbg.Columns[idx].Title.Caption + 'A');
+    AWidth[idx] := dbg.Columns[idx].Width;
+    Twidth := Twidth + AWidth[idx];
+
+    if Assigned(dbg.Columns[idx].Field) then
+      Asize[idx] := dbg.Columns[idx].Field.Size
+    else
+      Asize[idx] := 1;
+
+    TSize := TSize + Asize[idx];
+  end;
+  if TDBGridOption.dgColLines in dbg.Options then
+    Twidth := Twidth + dbg.Columns.count;
+
+  // adiciona a largura da coluna indicada do cursor
+  if TDBGridOption.dgIndicator in dbg.Options then
+    Twidth := Twidth + IndicatorWidth;
+
+  Swidth := dbg.ClientWidth - Twidth;
+  AjustarColumns(Swidth, TSize, Asize);
+end;
+
+end.

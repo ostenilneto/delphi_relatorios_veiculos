@@ -68,9 +68,9 @@ end;
 
 procedure TForm4.BitBtn2Click(Sender: TObject);
 begin
+  Form4.Close;
   Form2.Panel12.Width := 150;
   Form2.Caption := 'PROGRAMA DE APOIO';
-  Form4.Close;
   DBGrid3.DataSource.DataSet.Close;
   DBGrid4.DataSource.DataSet.Close;
 end;
@@ -117,8 +117,9 @@ begin
         Form4.ADOQuery1.Parameters.ParamByName('departamento').Value := 100;
         Form4.ADOQuery1.Parameters.ParamByName('departamento2').Value := 110;
         Form4.ADOQuery1.Open;
+        Form4.ADOQuery3.Parameters.ParamByName('cargo').Value := 6;
+        Form4.DBLookupComboBox1.KeyValue:= 468;
         Form4.ADOQuery3.Open;
-        DBLookupComboBox1.KeyValue:= 468;
     end
     else begin
         Form4.ADOQuery1.Close;
@@ -127,8 +128,9 @@ begin
         Form4.ADOQuery1.Parameters.ParamByName('departamento').Value := 200;
         Form4.ADOQuery1.Parameters.ParamByName('departamento2').Value := 210;
         Form4.ADOQuery1.Open;
+        Form4.ADOQuery3.Parameters.ParamByName('cargo').Value := 7;
+        Form4.DBLookupComboBox1.KeyValue:= 521;
         Form4.ADOQuery3.Open;
-        DBLookupComboBox1.KeyValue:= 521;
     end;
     DimensionarGrid( DBGrid3 );
 end;
@@ -160,9 +162,44 @@ end;
 
 procedure TForm4.DBGrid3DrawColumnCell(Sender: TObject; const Rect: TRect;
   DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  grid: TDBGrid;
+  linha: Integer;
 begin
-    ShowScrollBar(DBGrid3.Handle,SB_VERT,False); //Remove barra Vertical
+  // obtém um referência ao DBGrid
+  grid := sender as TDBGrid;
+
+  // obtém o número da linha atual usando a propriedade
+  // RecNo da classe TDataSet
+  linha := grid.DataSource.DataSet.RecNo;
+
+  // o número da linha é par?
+  if Odd(linha) then
+    begin
+      grid.Canvas.Brush.Color := $00D8F5DC;
+      grid.Canvas.Font.Color := clBlack
+    end
+  else
+    begin
+      grid.Canvas.Brush.Color := clSilver;
+      grid.Canvas.Font.Color := clBlack
+    end;
+
+  if DataCol=3 then
+  Begin
+    TDBGrid(Sender).Canvas.Brush.Color := clRed;
+    TDBGrid(Sender).Canvas.Font.Color := clWhite;
+  End;
+
+
+  // vamos terminar de desenhar a célula
+  grid.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+
+  if (TStringGrid(DBGrid3).RowCount-1) < 10 then //Se tiver menos de 10 linhas
     ShowScrollBar(DBGrid3.Handle,SB_HORZ,False); //Remove barra Vertical
+    ShowScrollBar(DBGrid3.Handle,SB_VERT,False); //Remove barra Vertical
+
+
 end;
 
 

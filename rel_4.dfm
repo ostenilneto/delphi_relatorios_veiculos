@@ -2129,6 +2129,9 @@ object Form5: TForm5
   WindowState = wsMaximized
   OnResize = FormResize
   OnShow = FormShow
+  DesignSize = (
+    1008
+    729)
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -2378,45 +2381,6 @@ object Form5: TForm5
       TabOrder = 2
       OnClick = BitBtn2Click
     end
-    object ComboBox1: TComboBox
-      Left = 334
-      Top = 13
-      Width = 145
-      Height = 23
-      Style = csDropDownList
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Arial'
-      Font.Style = []
-      ItemIndex = 0
-      ParentFont = False
-      TabOrder = 3
-      Text = 'VE'#205'CULOS NOVOS'
-      OnChange = ComboBox1Change
-      Items.Strings = (
-        'VE'#205'CULOS NOVOS'
-        'SEMINOVOS')
-    end
-    object DBLookupComboBox1: TDBLookupComboBox
-      AlignWithMargins = True
-      Left = 334
-      Top = 43
-      Width = 236
-      Height = 23
-      Anchors = [akLeft, akTop, akBottom]
-      DropDownRows = 20
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Arial'
-      Font.Style = []
-      KeyField = 'USUARIO'
-      ListField = 'NOME'
-      ListSource = DataSource3
-      ParentFont = False
-      TabOrder = 4
-    end
     object DateTimePicker4: TDateTimePicker
       AlignWithMargins = True
       Left = 105
@@ -2433,7 +2397,7 @@ object Form5: TForm5
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 3
     end
     object DateTimePicker3: TDateTimePicker
       AlignWithMargins = True
@@ -2450,7 +2414,7 @@ object Form5: TForm5
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 4
     end
   end
   object TabControl2: TTabControl
@@ -2487,6 +2451,7 @@ object Form5: TForm5
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      OnDrawColumnCell = DBGrid3DrawColumnCell
     end
     object DBGrid4: TDBGrid
       AlignWithMargins = True
@@ -2511,7 +2476,50 @@ object Form5: TForm5
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      OnDrawColumnCell = DBGrid4DrawColumnCell
     end
+  end
+  object ComboBox1: TComboBox
+    Left = 334
+    Top = 13
+    Width = 99
+    Height = 23
+    Style = csDropDownList
+    BiDiMode = bdLeftToRight
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Arial'
+    Font.Pitch = fpFixed
+    Font.Style = [fsBold]
+    ItemIndex = 0
+    ParentBiDiMode = False
+    ParentFont = False
+    TabOrder = 2
+    Text = '      NOVOS'
+    OnChange = ComboBox1Change
+    Items.Strings = (
+      '      NOVOS'
+      'SEMINOVOS')
+  end
+  object DBLookupComboBox1: TDBLookupComboBox
+    AlignWithMargins = True
+    Left = 334
+    Top = 43
+    Width = 307
+    Height = 23
+    Anchors = [akLeft, akTop, akBottom]
+    DropDownRows = 20
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Arial'
+    Font.Style = []
+    KeyField = 'USUARIO'
+    ListField = 'NOME'
+    ListSource = DataSource3
+    ParentFont = False
+    TabOrder = 3
   end
   object DataSource1: TDataSource
     DataSet = ADOQuery1
@@ -2545,16 +2553,18 @@ object Form5: TForm5
     Prepared = True
     SQL.Strings = (
       'select GMO.DES_MOTIVO "MOTIVO",'
+      'count(*) total,'
       'sum((case when FV.USUARIO = 468 then 1 else 0 end)) "ALLINE",'
-      'sum((case when FV.USUARIO = 232 then 1 else 0 end)) "ALTAMIRO",'
-      'sum((case when FV.USUARIO = 343 then 1 else 0 end)) "DENIS",'
+      'sum((case when FV.USUARIO = 607 then 1 else 0 end)) "DANILO",'
+      'sum((case when FV.USUARIO = 343 then 1 else 0 end)) "D'#202'NIS",'
+      'sum((case when FV.USUARIO = 609 then 1 else 0 end)) "DIEGO",'
       'sum((case when FV.USUARIO = 118 then 1 else 0 end)) "GUILHERME",'
       'sum((case when FV.USUARIO = 595 then 1 else 0 end)) "J'#201'SSICA",'
       'sum((case when FV.USUARIO = 375 then 1 else 0 end)) "JO'#195'O",'
       'sum((case when FV.USUARIO = 116 then 1 else 0 end)) "LARA",'
+      'sum((case when FV.USUARIO = 245 then 1 else 0 end)) "LAYANE",'
       'sum((case when FV.USUARIO = 257 then 1 else 0 end)) "MARIO",'
-      'sum((case when FV.USUARIO = 534 then 1 else 0 end)) "RODRIGO",'
-      'count(*) total'
+      'sum((case when FV.USUARIO = 534 then 1 else 0 end)) "RODRIGO"'
       'from GER_USUARIO GU1, GER_USUARIO GU2, CAC_CONTATO CAC '
       'inner join CAC_FORMA_CONTATO CFC '
       
@@ -2694,6 +2704,7 @@ object Form5: TForm5
   object ADOQuery3: TADOQuery
     Connection = ADOConnection1
     CursorType = ctStatic
+    Filtered = True
     DataSource = DataSource1
     Parameters = <
       item
@@ -2701,6 +2712,7 @@ object Form5: TForm5
         Size = -1
         Value = Null
       end>
+    Prepared = True
     SQL.Strings = (
       'select USUARIO, NOME'
       'from GER_USUARIO '
@@ -2734,16 +2746,13 @@ object Form5: TForm5
       end>
     SQL.Strings = (
       'select GMO.DES_MOTIVO "MOTIVO",'
-      'sum((case when FV.USUARIO = 521 then 1 else 0 end)) "DARLON",'
-      
-        'sum((case when FV.USUARIO = 118 then 1 else 0 end)) "GUILHERME",' +
-        ' '
+      'count(*) total,'
+      'sum((case when FV.USUARIO = 521 then 1 else 0 end)) "DARLON", '
       'sum((case when FV.USUARIO = 496 then 1 else 0 end)) "MARCUS", '
       'sum((case when FV.USUARIO = 439 then 1 else 0 end)) "MILENA", '
       'sum((case when FV.USUARIO = 329 then 1 else 0 end)) "RICARDO", '
       'sum((case when FV.USUARIO = 257 then 1 else 0 end)) "MARIO", '
-      'sum((case when FV.USUARIO = 268 then 1 else 0 end)) "PLINIO", '
-      'count(*) total'
+      'sum((case when FV.USUARIO = 268 then 1 else 0 end)) "PLINIO" '
       'from GER_USUARIO GU1, GER_USUARIO GU2, CAC_CONTATO CAC '
       'inner join CAC_FORMA_CONTATO CFC '
       
